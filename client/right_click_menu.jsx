@@ -20,20 +20,16 @@ const MyContextMenu = React.createClass({
     render() {
         return (
             <ContextMenu identifier="tree" currentItem={this.currentItem}>
-                <MenuItem onClick={this.handleClick} data={{item:"some_data"}}>
-                    ContextMenu Item 1
-                </MenuItem>
-                <MenuItem onClick={this.handleClick} data={{item:"some_data"}}>
-                    ContextMenu Item 2
-                </MenuItem>
-                <MenuItem onClick={this.handleClick} data={{item:"some_data"}}>
-                    ContextMenu Item 3
-                </MenuItem>
+                {widgets.map((widget)=>(
+                     <MenuItem key={widget[0]} onClick={this.handleClick} data={{item:widget[0]}}>
+                         {widget[1]}
+                     </MenuItem>
+                 ))}
             </ContextMenu>
         );
     },
     handleClick(e, data) {
-        console.log(data);
+        data.onNewItem(e, data.item);
     }
 });
 

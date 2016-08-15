@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "classname": "0.0.0",
+    "deepmerge": "^0.2.10",
     "meteor-node-stubs": "^0.2.3",
     "react": "^15.3.0",
     "react-contextmenu": "^1.6.2",
