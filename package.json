@@ -1,0 +1,20 @@
+{
+  "name": "form-builder",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "classname": "0.0.0",
+    "meteor-node-stubs": "^0.2.3",
+    "react": "^15.3.0",
+    "react-contextmenu": "^1.6.2",
+    "react-dom": "^15.3.0",
+    "react-jsonschema-form": "^0.38.0",
+    "react-ui-tree": "^2.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.3.0",
+    "eslint-plugin-react": "^6.1.0"
+  }
+}
