@@ -14,6 +14,7 @@ const Editor = React.createClass({
     render() {
         //const {onChange} = this.props;
         const node = this.props.getActiveNode();
+        if(!node)  return null;
         return (<div>
             <input ref="nameRef" type="text" value={node.name} onChange={this.onChange} />
             <textarea
