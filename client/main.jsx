@@ -12,8 +12,13 @@ import { RightClickMenu } from './right_click_menu';
 import { ContextMenuLayer } from "react-contextmenu";
 import deepMerge from 'deepmerge';
 
+import ToolTip from 'react-portal-tooltip';
+
+import Editor from './editor';
 
 const tree = { "configs": { "title": "A registration form", "description": "A simple form example.", "type": "object", "required": [ "firstName", "lastName", "password" ] }, "children": [ { "configs": { "type": "string", "title": "First name" }, "leaf": true, "name": "firstName" }, { "configs": { "type": "string", "title": "Last name" }, "leaf": true, "name": "lastName" }, { "configs": { "type": "integer", "title": "Age" }, "leaf": true, "name": "age" }, { "configs": { "type": "string", "title": "Bio" }, "leaf": true, "name": "bio" }, { "configs": { "type": "string", "title": "Password", "minLength": 3 }, "leaf": true, "name": "password" } ], "name": "root" }
+
+const ui = {}
 
 
 function deepEqual(a,b){
@@ -123,6 +128,7 @@ function compileSchema(tree){
 
 function injectUiSchema(n,uiSchema){
     let node = Object.assign({},n);
+    uiSchema = uiSchema || {};
     for(var i in uiSchema){
         if(i.startsWith('ui:')){
             node.ui = node.ui||{};
@@ -194,12 +200,24 @@ function extractUiSchema(node){
 
 function getOrder(schema){
     if(schema.properties){
-        let ui_order={'ur:order':Object.keys(schema.properties)};
+        let ui_order={'ui:order':Object.keys(schema.properties)};
         for(var i in schema.properties){
             const order = getOrder(i);
             if(order){
                 ui_order[i]=order;
             }
+        }
+        return ui_order;
+    }
+    else if (schema.type == 'array'){
+        let ui_order = {};
+        if(Array.isArray(schema.items)){
+            ui_order.items = schema.items.map(getOrder);
+        }else{
+            ui_order.items = getOrder(schema.items);
+        }
+        if(schema.additionalItems){
+            ui_order.additionalItems = getOrder(schema.additionalItems);
         }
         return ui_order;
     }
@@ -269,11 +287,21 @@ const App = React.createClass({
         this.setState({active});
 
     },
+    onNodeUpdate(e,data){
+        let active = Object.assign(this.state.active, data);
+        this.setState({
+            active
+        });
+    },
+    getActiveNode(){
+        return this.state.active;
+    },
     render() {
-        const schema = compileSchema(this.state.tree);
+        const schema = compileSchema(this.state.active||this.state.tree);
+        console.log(getOrder(schema));
         const uiSchema = deepMerge(
             getOrder(schema),
-            extractUiSchema(this.state.tree),
+            extractUiSchema(this.state.active||this.state.tree),
         );
         return (
             <div className="app">
@@ -287,6 +315,9 @@ const App = React.createClass({
                         onNewItem={this.onNewItem}
                     />
                 </div>
+                <ToolTip active={!!this.state.active} parent=".is-active" position="bottom" arrow="left" group="result" >
+                    <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} />
+                </ToolTip>
                 <div className="inspector">
                     <Form
                         schema={ schema }
