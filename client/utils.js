@@ -77,6 +77,38 @@ function decompileSchema(tree){
     return root;
 }
 
+function getParent(tree, node){
+    if(tree.children){
+        if(tree.children.indexOf(node)>=0)
+            return tree;
+        for(var i in tree.children){
+            let r = getParent(tree.children, node);
+            if(r) return r;
+        }
+    }
+    return null;
+}
+
+function deleteNode(root, node){
+    function filter(child){
+        return child != node;
+    }
+    function _delete(tree){
+        if(tree.children){
+            let new_children;
+            if (tree.children.indexOf(node)>=0 ){
+                new_children = tree.children.filter(filter);
+            }else{
+                new_children = tree.children.map(_delete);
+            }
+            return Object.assign({},tree,{children:new_children});
+        }else{
+            return tree;
+        }
+    }
+    return _delete(root);
+}
+
 function compile(node){
     let schema = Object.assign({},node.configs);
     if(node.children){
@@ -205,11 +237,14 @@ function getOrder(schema){
         }
         return ui_order;
     }
-}
+};
+
 
 module.exports = {
     compile: compileSchema,
     decompile: decompileSchema,
+    getParent: getParent,
+    deleteNode: deleteNode,
     injectUiSchema: injectUiSchema,
     extractUiSchema: extractUiSchema,
     getUiOrder: getOrder

@@ -31,6 +31,14 @@ preset.input = build({
     "title": "Input"
 });
 
+preset.email = build({
+    "type": "string",
+    "title": "Email",
+    "format": "email"
+});
+
+
+
 preset.checkbox = build({
     "type": "array",
     "title": "A multiple choices list",

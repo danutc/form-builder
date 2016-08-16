@@ -16,7 +16,7 @@ import ToolTip from 'react-portal-tooltip';
 
 import Editor from './editor';
 
-import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder} from './utils.js';
+import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode} from './utils.js';
 
 const tree = injectUiSchema(
     decompile({ "title": "A registration form", "description": "A simple form example.", "type": "object", "required": [ "firstName", "lastName" ], "properties": { "firstName": { "type": "string", "title": "First name" }, "lastName": { "type": "string", "title": "Last name" }, "age": { "type": "integer", "title": "Age" }, "bio": { "type": "string", "title": "Bio" }, "password": { "type": "string", "title": "Password", "minLength": 3 } } }),
@@ -75,12 +75,21 @@ const App = React.createClass({
     onContextMenu(event){
 
     },
+    onDeleteItem(e){
+        let active = this.state['active'];
+        console.log(this.state.tree,active);
+        if(active){
+            this.setState({
+                active:undefined,
+                tree:deleteNode(this.state.tree,active)
+            });
+        }
+    },
     onNewItem(e, item_type){
         let active = this.state['active'];
         if(active.children){
             if(active.configs.type == 'object'){
                 console.log(item_type);
-                let new_item = preset[item_type];
                 let new_name = "new_"+item_type;
                 let isNameExist = function (name){return active.children.find(function(chr){return chr.name == name})};
                 if(isNameExist(new_name)){
@@ -126,6 +135,7 @@ const App = React.createClass({
                         onChange={this.handleChange}
                         isNodeCollapsed={this.isNodeCollapsed}
                         renderNode={this.renderNode}
+                        onDeleteItem={this.onDeleteItem}
                         onNewItem={this.onNewItem}
                     />
                 </div>

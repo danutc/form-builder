@@ -8,10 +8,10 @@ const widgets = [
     ['input','Input'],
     ['checkbox','Checkbox'],
     ['radio','Radio'],
+    ['email','Email'],
     ['textarea','Text Area'],
     ['date','Date'],
     ['datetime','Date/Time'],
-    ['email','Email'],
     ['uri','Uri'],
     ['wysiwyg','Wysiwyg'],
 ];
@@ -25,11 +25,19 @@ const MyContextMenu = React.createClass({
                          {widget[1]}
                      </MenuItem>
                  ))}
+                     <hr />
+                     <MenuItem onClick={this.handleClick} data={{action:'delete'}}>
+                         Delete
+                     </MenuItem>
             </ContextMenu>
         );
     },
     handleClick(e, data) {
-        data.onNewItem(e, data.item);
+        if(data.action=='delete'){
+            data.onDeleteItem(e);
+        }else{
+            data.onNewItem(e, data.item);
+        }
     }
 });
 
