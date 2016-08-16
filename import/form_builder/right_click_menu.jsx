@@ -18,6 +18,9 @@ const widgets = [
 
 const MyContextMenu = React.createClass({
     render() {
+        console.log(this);
+        console.log(this.state);
+        const widgets = this.props.presetItems.map((i)=>[i,i]);
         return (
             <ContextMenu identifier="tree" currentItem={this.currentItem}>
                 {widgets.map((widget)=>(
@@ -34,9 +37,9 @@ const MyContextMenu = React.createClass({
     },
     handleClick(e, data) {
         if(data.action=='delete'){
-            data.onDeleteItem(e);
+            this.props.onDeleteItem(e);
         }else{
-            data.onNewItem(e, data.item);
+            this.props.onNewItem(e, data.item);
         }
     }
 });

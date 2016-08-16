@@ -1,45 +1,46 @@
 import deepcopy from 'deepcopy';
-import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder} from './utils.js';
 
-function build(JSONSchema, UISchema){
-    let tree=decompile(JSONSchema);
-    if(UISchema){
-        tree = injectUiSchema(tree,UISchema);
-    }
-    return tree;
-}
 
 let preset = {};
 
-preset.object = build({
-    "type": "object",
-    "title": "Object Name"
-});
-
-preset.array = build({
-    "type": "array",
-    "title": "Nested list",
-    "items": {
+preset.object = {
+    "JSONSchema":{
         "type": "object",
-        "title": "Inner list",
-        "properties": {}
+        "title": "Object Name"
     }
-});
+};
 
-preset.input = build({
-    "type": "string",
-    "title": "Input"
-});
+preset.array = {
+    "JSONSchema":{
+        "type": "array",
+        "title": "Nested list",
+        "items": {
+            "type": "object",
+            "title": "Inner list",
+            "properties": {}
+        }
+    }
+};
 
-preset.email = build({
-    "type": "string",
-    "title": "Email",
-    "format": "email"
-});
+preset.input = {
+    "JSONSchema":{
+        "type": "string",
+        "title": "Input"
+    }
+};
+
+preset.email = {
+    "JSONSchema":{
+        "type": "string",
+        "title": "Email",
+        "format": "email"
+    }
+};
 
 
 
-preset.checkbox = build({
+preset.checkbox = {
+    "JSONSchema":{
     "type": "array",
     "title": "A multiple choices list",
     "items": {
@@ -56,35 +57,47 @@ preset.checkbox = build({
         ]
     },
     "uniqueItems": true
-},{
-    "ui:widget": "checkboxes"
-});
+    },
+    "UISchema":{
+        "ui:widget": "checkboxes"
+    }
+};
 
-preset.radio = build({
-    "type": "boolean",
-    "title": "radio buttons"
-},{
-    "ui:widget": "radio"
-});
+preset.radio = {
+    "JSONSchema":{
+        "type": "boolean",
+        "title": "radio buttons"
+    },
+    "UISchema":{
+        "ui:widget": "radio"
+    }
+};
 
-preset.textarea = build({
-    "type": "string",
-    "title": "Textarea"
-},{
-    "ui:widget": "textarea"
-});
+preset.textarea = {
+    "JSONSchema":{
+        "type": "string",
+        "title": "Textarea"
+    },
+    "UISchema":{
+        "ui:widget": "textarea"
+    }
+};
 
-preset.date = build({
-    "type": "string",
-    "title": "Date",
-    "format": "date"
-});
+preset.date = {
+    "JSONSchema":{
+        "type": "string",
+        "title": "Date",
+        "format": "date"
+    }
+};
 
-preset.datetime = build({
-    "type": "string",
-    "title": "Datetime",
-    "format": "datetime"
-});
+preset.datetime = {
+    "JSONSchema":{
+        "type": "string",
+        "title": "Datetime",
+        "format": "datetime"
+    }
+};
 
 /*
 preset.paymentStatus = builc({
@@ -100,7 +113,6 @@ preset.paymentStatus = builc({
     'ui:widget': 'paymentStatus'
 });
 */
-let loader = {};
 /*
 Object.defineProperty(loader,'input',{
     get: function(){
@@ -115,17 +127,6 @@ Object.defineProperty(loader,'checkbox',{
 });
 */
 
-for(var i in preset){
-    const node = preset[i];
-    const getter = function(){
-        return deepcopy(node);
-    };
-    Object.defineProperty(loader,i,{
-        get: getter
-    });
-}
 
-console.log('lllllllllllllllllllllllll');
-console.log(loader);
 
-export default loader;
+export default preset;
