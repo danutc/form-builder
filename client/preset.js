@@ -13,10 +13,10 @@ preset.object = {
 preset.array = {
     "JSONSchema":{
         "type": "array",
-        "title": "Nested list",
+        "title": "List",
         "items": {
             "type": "object",
-            "title": "Inner list",
+            "title": "List item",
             "properties": {}
         }
     }
@@ -41,22 +41,22 @@ preset.email = {
 
 preset.checkbox = {
     "JSONSchema":{
-    "type": "array",
-    "title": "A multiple choices list",
-    "items": {
-        "type": "string",
-        "enum": [
-            "1",
-            "2",
-            "3"
-        ],
-        "enumNames": [
-            "one",
-            "two",
-            "three"
-        ]
-    },
-    "uniqueItems": true
+        "type": "array",
+        "title": "A multiple choices list",
+        "items": {
+            "type": "string",
+            "enum": [
+                "1",
+                "2",
+                "3"
+            ],
+            "enumNames": [
+                "one",
+                "two",
+                "three"
+            ]
+        },
+        "uniqueItems": true
     },
     "UISchema":{
         "ui:widget": "checkboxes"

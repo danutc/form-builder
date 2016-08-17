@@ -24,15 +24,12 @@ const tree = injectUiSchema(
 );
 
 
-
 const TreeWithRightClick = ContextMenuLayer(
     'tree',
     (props)=>{
         return props;
     }
 )(Tree);
-
-
 
 const App = React.createClass({
     getInitialState() {
@@ -42,7 +39,7 @@ const App = React.createClass({
             for(var i in preset){
                 let node = decompile(preset[i].JSONSchema);
                 if(preset[i].UISchema){
-                    node = injectUiSchema(node);
+                    node = injectUiSchema(node,preset[i].UISchema);
                 }
                 const getter = function(){
                     return deepcopy(node);
@@ -58,7 +55,8 @@ const App = React.createClass({
         return {
             active: null,
             tree: tree,
-            preset: buildPresetLoader(this.props.preset)
+            preset: buildPresetLoader(this.props.preset),
+            clicktime: (new Date()).getTime()
         };
     },
 
@@ -83,15 +81,32 @@ const App = React.createClass({
 
         );
     },
+
     onRightClickNode(node){
         this.setState({
             active: node
         });
     },
+
     onClickNode(node) {
-        this.setState({
-            active: this.state.active == node ? undefined : node
-        });
+        let time = (new Date()).getTime();
+        let new_state = {};
+        console.log(time - this.state.clicktime);
+        if(time - this.state.clicktime < 200){
+            //double click
+            this.setState({
+                editing: node,
+                active: node,
+                clicktime: time,
+            });
+        }else{
+            this.setState({
+                editing:undefined,
+                clicktime: time,
+                active: this.state.active == node ? undefined : node
+            });
+        }
+
     },
 
     onContextMenu(event){
@@ -141,7 +156,7 @@ const App = React.createClass({
         });
     },
     getActiveNode(){
-        return this.state.active;
+        return this.state.editing;
     },
     render() {
         const schema = compile(this.state.active||this.state.tree);
@@ -160,9 +175,10 @@ const App = React.createClass({
                         renderNode={this.renderNode}
                     />
                 </div>
-                <ToolTip active={!!this.state.active} parent=".is-active" position="bottom" arrow="left" group="result" >
+                {(this.state.editing)?
+                (<ToolTip active={!!this.state.editing} parent=".is-active" position="bottom" arrow="center" group="result" >
                     <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} />
-                </ToolTip>
+                </ToolTip>):(null)}
                 <div className="inspector">
                     <Form
                         schema={ schema }
@@ -206,7 +222,7 @@ const App = React.createClass({
     },
     updateSchema(){
         const {treeRef} = this.refs;
-        this.setState({tree:JSON.parse(treeRef.value)});
+        this.setState({tree:JSON.parse(treeRef.valu)});
     },
     updateTree() {
         //var tree = this.state.tree;
