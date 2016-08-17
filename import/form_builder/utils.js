@@ -144,7 +144,52 @@ function compile(node){
 function compileSchema(tree){
     return compile(tree);
 }
+/*
+function injectFormData(n, data){
+    let node = Object.assign({},n);
+    data = data || {};
+    for(var i in uiSchema){
+        if(i.startsWith('ui:')){
+            node.ui = node.ui||{};
+            node.ui[i]=uiSchema[i];
+        }
+    }
+    if(node.configs.type == 'object'){
+        node.children = node.children.map((i)=>{
+            if(uiSchema[i.name]){
+                return injectFormData(i,data[i.name]);
+            }
+            return i;
+        });
+    }
 
+    else if(node.configs.type == 'array'){
+        node.children = node.children.map((i)=>{
+            if(i.name=='items_array'){
+                let res = Object.assign({},i,{
+                    children: i.children.map((child,index)=>(
+                         (index in data.items)?
+                               injectFormData(child,uiSchema.items[index])
+                              :child))
+
+                });
+                return res;
+            }else if(i.name=='items'){
+                return injectFormData(i,uiSchema.items);
+                //let items_ui = extractUiSchema(i);
+                //items_ui && (ui_schema['items'] = items_ui);
+            }else if(i.name=='additionalItems'){
+                return injectFormData(i,uiSchema.additionalItems);
+            }
+        });
+    }
+    return node;
+}
+
+function extractFormDate(n, data){
+
+}
+*/
 function injectUiSchema(n,uiSchema){
     let node = Object.assign({},n);
     uiSchema = uiSchema || {};

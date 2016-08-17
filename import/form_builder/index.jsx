@@ -56,7 +56,8 @@ const App = React.createClass({
             active: null,
             tree: tree,
             preset: buildPresetLoader(this.props.preset),
-            clicktime: (new Date()).getTime()
+            clicktime: (new Date()).getTime(),
+            formData: {}
         };
     },
 
@@ -174,6 +175,11 @@ const App = React.createClass({
     getActiveNode(){
         return this.state.active;
     },
+    onDataChange(e){
+        if(this.state.tree==this.state.active || !this.state.active ){
+            this.setState({formData:e.formData});
+        }
+    },
     render() {
         const schema = compile(this.state.active||this.state.tree);
         const uiSchema = deepMerge(
@@ -200,6 +206,8 @@ const App = React.createClass({
                         schema={ schema }
                         uiSchema={ uiSchema }
                         fields={ this.props.fields }
+                        onChange={ this.onDataChange }
+                        formData={ this.state.tree==this.state.active || !this.state.active ? this.state.formData:undefined}
                     />
                     <hr />
                     Editor:
@@ -215,6 +223,12 @@ const App = React.createClass({
                         value={JSON.stringify(extractUiSchema(this.state.tree), null, '  ')}
                         onChange={this.updateTree}>
                     </textarea>
+
+                    <textarea
+                        ref="dataRef"
+                        value={JSON.stringify(this.state.formData, null, '  ')}>
+                    </textarea>
+
                     <hr />
                     <textarea
                         ref="treeRef"
