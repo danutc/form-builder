@@ -74,6 +74,9 @@ function decompile(schema){
 function decompileSchema(tree){
     let root = decompile(tree);
     root.name = 'root';
+    root.configs = root.configs || {type:"object"};
+    console.log("=root===================");
+    console.log(root);
     return root;
 }
 

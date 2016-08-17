@@ -146,6 +146,8 @@ const App = React.createClass({
                     0,
                     new_item
                 );
+            }else{
+                parent.children.push(new_item);
             }
             return new_item;
         }
@@ -197,6 +199,7 @@ const App = React.createClass({
                     <Form
                         schema={ schema }
                         uiSchema={ uiSchema }
+                        fields={ this.props.fields }
                     />
                     <hr />
                     Editor:
