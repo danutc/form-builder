@@ -8,6 +8,7 @@
     "classname": "0.0.0",
     "deepcopy": "^0.6.3",
     "deepmerge": "^0.2.10",
+    "draft-js": "^0.8.1",
     "meteor-node-stubs": "^0.2.3",
     "react": "^15.3.0",
     "react-contextmenu": "^1.6.2",

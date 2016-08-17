@@ -90,24 +90,9 @@ const App = React.createClass({
     },
 
     onClickNode(node) {
-        let time = (new Date()).getTime();
-        let new_state = {};
-        console.log(time - this.state.clicktime);
-        if(time - this.state.clicktime < 200){
-            //double click
-            this.setState({
-                editing: node,
-                active: node,
-                clicktime: time,
-            });
-        }else{
-            this.setState({
-                editing:undefined,
-                clicktime: time,
-                active: this.state.active == node ? undefined : node
-            });
-        }
-
+        this.setState({
+            active: this.state.active == node ? undefined : node
+        });
     },
 
     onContextMenu(event){
@@ -129,7 +114,7 @@ const App = React.createClass({
         function addChildren(parent,item_type,after_child){
             function genNewName(parent,item_type){
                 let new_name = item_type;
-                function isNameExist(name){return parent.children.find(function(chr){return chr.name == name})};
+                function isNameExist(name){return !!parent.children && parent.children.find(function(chr){return chr.name == name})};
                 if(isNameExist(new_name)){
                     let counter = 1;
                     while(isNameExist(new_name+'_'+counter)){
@@ -167,7 +152,10 @@ const App = React.createClass({
         //this.setState({active});
     },
     onNodeUpdate(e,data){
+        console.log(data);
         let active = Object.assign(this.state.active, data);
+        console.log("data ====================");
+        console.log(data);
         this.setState({
             active
         });
@@ -202,44 +190,47 @@ const App = React.createClass({
                     <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} />
                 </ToolTip>):(null)}
                 <div className="inspector">
-                    <Form
-                        schema={ schema }
-                        uiSchema={ uiSchema }
-                        fields={ this.props.fields }
-                        onChange={ this.onDataChange }
-                        formData={ this.state.tree==this.state.active || !this.state.active ? this.state.formData:undefined}
-                    />
-                    <hr />
-                    Editor:
-                    <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} />
-                    <hr />
-                    <textarea
-                        ref="schemaRef"
-                        value={JSON.stringify(compile(this.state.tree), null, '  ')}
-                        onChange={this.updateTree}>
-                    </textarea>
-                    <textarea
-                        ref="uiSchemaRef"
-                        value={JSON.stringify(extractUiSchema(this.state.tree), null, '  ')}
-                        onChange={this.updateTree}>
-                    </textarea>
+                    <div className="col-md-9">
+                        <Form
+                            schema={ schema }
+                            uiSchema={ uiSchema }
+                            fields={ this.props.fields }
+                            onChange={ this.onDataChange }
+                            formData={ this.state.tree==this.state.active || !this.state.active ? this.state.formData:undefined}
+                        />
+                        <hr />
+                        <textarea
+                            ref="schemaRef"
+                            value={JSON.stringify(compile(this.state.tree), null, '  ')}
+                            onChange={this.updateTree}>
+                        </textarea>
+                        <textarea
+                            ref="uiSchemaRef"
+                            value={JSON.stringify(extractUiSchema(this.state.tree), null, '  ')}
+                            onChange={this.updateTree}>
+                        </textarea>
 
-                    <textarea
-                        ref="dataRef"
-                        value={JSON.stringify(this.state.formData, null, '  ')}>
-                    </textarea>
+                        <textarea
+                            ref="dataRef"
+                            value={JSON.stringify(this.state.formData, null, '  ')}>
+                        </textarea>
 
-                    <hr />
-                    <textarea
-                        ref="treeRef"
-                        value={JSON.stringify(this.state.tree, null, '  ')}
-                        onChange={this.updateSchema}>
-                    </textarea>
-                    <RightClickMenu
-                        onDeleteItem={this.onDeleteItem}
-                        onNewItem={this.onNewItem}
-                        presetItems={Object.keys(this.props.preset)}
-                    />
+                        <hr />
+                        <textarea
+                            ref="treeRef"
+                            value={JSON.stringify(this.state.tree, null, '  ')}
+                            onChange={this.updateSchema}>
+                        </textarea>
+                        <RightClickMenu
+                            onDeleteItem={this.onDeleteItem}
+                            onNewItem={this.onNewItem}
+                            presetItems={Object.keys(this.props.preset)}
+                        />
+                    </div>
+                    <div className="col-md-3">
+                        <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} getActiveNode={()=>this.state.active}/>
+                        <hr />
+                    </div>
                 </div>
             </div>
         );

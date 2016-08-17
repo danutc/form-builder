@@ -99,6 +99,15 @@ preset.datetime = {
     }
 };
 
+preset.wysiwyg = {
+    "JSONSchema":{
+        "type": "string"
+    },
+    "UISchema":{
+        "ui:field":"wysiwyg"
+    }
+};
+
 /*
 preset.paymentStatus = builc({
     type: 'string',

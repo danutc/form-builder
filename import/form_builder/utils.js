@@ -75,8 +75,8 @@ function decompileSchema(tree){
     let root = decompile(tree);
     root.name = 'root';
     root.configs = root.configs || {type:"object"};
-    console.log("=root===================");
-    console.log(root);
+    root.configs.type = root.configs.type || "object";
+    root.children = root.children || [];
     return root;
 }
 
@@ -219,7 +219,6 @@ function injectUiSchema(n,uiSchema){
                               :child))
 
                 });
-                console.log(res);
                 return res;
             }else if(i.name=='items'){
                 return injectUiSchema(i,uiSchema.items);

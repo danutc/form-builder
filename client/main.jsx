@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import preset from './preset.js'
 import Form from 'react-jsonschema-form';
 import "../node_modules/react-ui-tree/dist/react-ui-tree.css";
-
+import customized_widgets from "../import/customized_widgets";
 const Editor = React.createClass({
     getInitialState() {
         return {
@@ -12,12 +12,69 @@ const Editor = React.createClass({
             uiSchema:{}
         }
     },
-    onChange(){
 
+    onChange(e){
+        console.log(e.formData);
+        formData = e.formData;
+        this.props.onChange(e.formData);
     },
+
     render(){
+        const schema={
+            "type": "object",
+            "title": "General",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "title": "Name"
+                },
+                "configs": {
+                    "type": "object",
+                    "title": "JSONSchema",
+                    "properties": {
+                        "defaultValue": {
+                            "type": "string",
+                            "title": "Default Value"
+                        },
+                        "label": {
+                            "type": "string",
+                            "title": "Label"
+                        },
+                        "type": {
+                            "type": "string",
+                            "title": "Input",
+                            "enum": [
+                                "object",
+                                "array",
+                                "integer",
+                                "string",
+                                "boolean"
+                            ]
+                        }
+                    }
+                },
+                "ui": {
+                    "type": "object",
+                    "title": "UISchema",
+                    "properties": {
+                        "classNames": {
+                            "type": "string",
+                            "title": "Class"
+                        },
+                        "placeHolder": {
+                            "type": "string",
+                            "title": "Place Holder"
+                        },
+                        "hint": {
+                            "type": "string",
+                            "title": "Hint"
+                        }
+                    }
+                }
+            }
+        };
         return (<Form
-            schema = {this.state.schema}
+            schema = {schema}
             uiSchema = {this.state.uiSchema}
             onChange = {this.onChange}
         />)
@@ -41,8 +98,7 @@ const App = React.createClass({
     },
 
     onFormData(e){
-        console.log('--------------------');
-        console.log(e);
+
     },
 
     render (){
@@ -79,7 +135,7 @@ const App = React.createClass({
             }
         };
         return (<div className="app">
-            <Form
+            <Editor
                 schema={schema}
                 onChange={this.onFormData} />
             <hr />
@@ -108,45 +164,9 @@ const App = React.createClass({
     },
 });
 
-class GeoPosition extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {...props.formData};
-    }
 
-    onChange(name) {
-        return (event) => {
-            this.setState({[name]: parseFloat(event.target.value)});
-            setImmediate(() => this.props.onChange(this.state));
-        };
-    }
-
-    render() {
-        const {lat, lon} = this.state;
-        return (
-            <div className="geo">
-                <h3>Hey, I'm a custom component</h3>
-                <p>I'm registered as <code>geo</code> and referenced in
-                    <code>uiSchema</code> as the <code>ui:field</code> to use for this
-                    schema.</p>
-                <div className="row">
-                    <div className="col-sm-6">
-                        <label>Latitude</label>
-                        <input className="form-control" type="number" value={lat} step="0.00001"
-                               onChange={this.onChange("lat")} />
-                    </div>
-                    <div className="col-sm-6">
-                        <label>Longitude</label>
-                        <input className="form-control" type="number" value={lon} step="0.00001"
-                               onChange={this.onChange("lon")} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
 
 Meteor.startup(() => {
     console.log(preset);
-    render(<App2 preset={preset} fields={{geo:GeoPosition}}/>, document.getElementById('app'));
+    render(<App2 preset={preset} fields={customized_widgets}/>, document.getElementById('app'));
 });
