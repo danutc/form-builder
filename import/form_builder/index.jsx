@@ -16,7 +16,7 @@ import Editor from './editor';
 
 import deepcopy from 'deepcopy';
 
-import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode} from './utils.js';
+import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode, getParent} from './utils.js';
 
 const tree = injectUiSchema(
     decompile({ "title": "A registration form", "description": "A simple form example.", "type": "object", "required": [ "firstName", "lastName" ], "properties": { "firstName": { "type": "string", "title": "First name" }, "lastName": { "type": "string", "title": "Last name" }, "age": { "type": "integer", "title": "Age" }, "bio": { "type": "string", "title": "Bio" }, "password": { "type": "string", "title": "Password", "minLength": 3 } } }),
@@ -124,11 +124,11 @@ const App = React.createClass({
     },
     onNewItem(e, item_type){
         let active = this.state['active'];
-        if(active.children){
-            if(active.configs.type == 'object'){
-                console.log(item_type);
+        const preset = this.state.preset;
+        function addChildren(parent,item_type,after_child){
+            function genNewName(parent,item_type){
                 let new_name = item_type;
-                let isNameExist = function (name){return active.children.find(function(chr){return chr.name == name})};
+                function isNameExist(name){return parent.children.find(function(chr){return chr.name == name})};
                 if(isNameExist(new_name)){
                     let counter = 1;
                     while(isNameExist(new_name+'_'+counter)){
@@ -136,16 +136,30 @@ const App = React.createClass({
                     }
                     new_name += '_'+counter;
                 }
-                new_item = this.state.preset[item_type];
-                new_item.name = new_name;
-                console.log(new_item);
-                active.children.push(new_item);
+                return new_name;
+            }
+            new_item = preset[item_type];
+            new_item.name = genNewName(parent, item_type);
+            if(after_child){
+                parent.children.splice(
+                    parent.children.indexOf(after_child)+1,
+                    0,
+                    new_item
+                );
+            }
+            return new_item;
+        }
+        if(active.children){
+            if(active.configs.type == 'object'){
                 this.setState({
-                    active:new_item
+                   active: addChildren(active,item_type)
                 });
             }
         }else{
-            console.log('leaf');
+            let parent = getParent(this.state.tree, active);
+            this.setState({
+                active: addChildren(parent,item_type,active)
+            });
         }
         //this.setState({active});
     },
@@ -156,7 +170,7 @@ const App = React.createClass({
         });
     },
     getActiveNode(){
-        return this.state.editing;
+        return this.state.active;
     },
     render() {
         const schema = compile(this.state.active||this.state.tree);
@@ -175,7 +189,7 @@ const App = React.createClass({
                         renderNode={this.renderNode}
                     />
                 </div>
-                {(this.state.editing)?
+                {(this.state.editing && false)?
                 (<ToolTip active={!!this.state.editing} parent=".is-active" position="bottom" arrow="center" group="result" >
                     <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} />
                 </ToolTip>):(null)}
@@ -185,8 +199,8 @@ const App = React.createClass({
                         uiSchema={ uiSchema }
                     />
                     <hr />
-
-                    <button onClick={this.updateTree}>parse</button>
+                    Editor:
+                    <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} />
                     <hr />
                     <textarea
                         ref="schemaRef"
