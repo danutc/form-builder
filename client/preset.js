@@ -22,12 +22,30 @@ preset.array = {
     }
 };
 
+
 preset.input = {
     "JSONSchema":{
         "type": "string",
         "title": "Input"
     }
 };
+
+preset.selectbox = {
+    "JSONSchema":{
+        "type": "string",
+        "title": "Options",
+        "enum": [
+            "0",
+            "1",
+            "2"
+        ],
+        "enumNames":[
+            "Option 1",
+            "Option 2",
+            "Option 3"
+        ]
+    }
+}
 
 preset.email = {
     "JSONSchema":{
