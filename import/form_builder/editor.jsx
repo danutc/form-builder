@@ -22,8 +22,8 @@ let uiFormEditorSchema = {
     "title": 'UI Widget Configuration',
     "properties": {
         "classNames": { type: 'string', title: 'Class' },
-        "placeHolder": {type: 'string', title: 'Place holder'},
-        "hint": {type: 'string', title: 'Hint'},
+        "ui:placeholder": {type: 'string', title: 'Place holder'},
+        "ui:help": {type: 'string', title: 'Hint'},
     }
 }
 
