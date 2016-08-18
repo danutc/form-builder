@@ -138,6 +138,15 @@ preset.wysiwyg = {
     }
 };
 
+preset.paymentStatus = {
+    "JSONSchema":{
+        "type": "object"
+    },
+    "UISchema":{
+        "ui:field":"paymentStatus"
+    }
+};
+
 /*
 preset.paymentStatus = builc({
     type: 'string',
