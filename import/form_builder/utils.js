@@ -233,7 +233,7 @@ function injectUiSchema(n,uiSchema){
 }
 
 function extractUiSchema(node){
-    let ui_schema = node.ui || {};
+    let ui_schema = Object.assign({},node.ui);
     if(node.configs.type == 'object'){
         for (var i in node.children){
             i = node.children[i];
