@@ -1,8 +1,11 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
+
+//--------------------------------------------------------------------------------
+// Json scheme editor properties
+//--------------------------------------------------------------------------------
 var commonEditFormSchema = {
     type: 'object',
-    title: 'General',
 
     properties: {
         label: { type: 'string', title: 'Label' },
@@ -11,133 +14,86 @@ var commonEditFormSchema = {
         defaultValue: { type: 'string', title: 'Default Value' },
         placeHolder: { type: 'string', title: 'Place Holder' },
         hint: { type: 'string', title: 'Hint' },
-        depth: { type: 'number', title: 'Depth of the element' }
     }
 }
 
-const JSONSchemaEditor = React.createClass({
-    render(){
-        return (<div></div>);
-    }
-});
+//--------------------------------------------------------------------------------
+// UI schema editor properties
+//--------------------------------------------------------------------------------
 
-const UISchemaEditor = React.createClass({
-    render(){
-        return (<div></div>);
+let uiFormEditorSchema = {
+    "type": 'object',
+    "title": 'UI Widget Configuration',
+    "properties": {
     }
-});
+}
 
-const GeneralEditor = React.createClass({
-    getInitialState() {
-        console.log('editor==========');
-        console.log(this.props);
-        return {
+let uiEditPropertiesSchema = {
+    'integer': {
+        "type": {
+            "type": "number",
+            "enum": [
+                "updown",
+                "range"
+            ]
         }
     },
+    'string': {
+        "type": {
+            "type": "string",
+            "enum": [
+                "textarea"
+            ]
+        }
+    }
+}
 
-    onChange(e){
-        console.log(e);
-        //formData = e.formData;
-        //this.setState.formData(this.props.formData);
-        this.props.onChange(e,e.formData);
-    },
-
-    render(){
-        const schema={
-            "type": "object",
-            "title": "General Editor",
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "title": "Name"
-                },
-                "configs": {
-                    "type": "object",
-                    "title": "JSONSchema",
-                    "properties": {
-                        "type": {
-                            "type": "string",
-                            "title": "Input",
-                            "enum": [
-                                "object",
-                                "array",
-                                "integer",
-                                "string",
-                                "boolean"
-                            ]
-                        },
-                        "title": {
-                            "type": "string",
-                            "title": "Label"
-                        },
-                        "default": {
-                            "type": "string",
-                            "title": "Default Value"
-                        }
-                    }
-                },
-                "ui": {
-                    "type": "object",
-                    "title": "UISchema",
-                    "properties": {
-                        "classNames": {
-                            "type": "string",
-                            "title": "Class"
-                        },
-                        "placeHolder": {
-                            "type": "string",
-                            "title": "Place Holder"
-                        },
-                        "hint": {
-                            "type": "string",
-                            "title": "Hint"
-                        }
-                    }
-                }
-            }
-        };
-        const node = this.props.getActiveNode();
-        if(!node) return null;
-        return (<Form
-                    schema = {schema}
-                    uiSchema = {this.state.uiSchema}
-                    onChange = {this.onChange}
-                    formData = {this.props.getActiveNode()}
-                />)
+class Editor extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
-});
-
-const Editor = React.createClass({
-    onChange(e){
-        const new_data = {
-            name: this.refs.nameRef.value,
-            configs: JSON.parse(this.refs.configsRef.value),
-            ui: JSON.parse(this.refs.uiRef.value),
-        };
-        console.log(new_data);
-        this.props.onChange(e, new_data);
-    },
     render() {
-        //const {onChange} = this.props;
-        const node = this.props.getActiveNode();
-        console.log('====================');
-        if(!node)  return null;
-        return (<div>
-            <input ref="nameRef" type="text" value={node.name} onChange={this.onChange} />
-            <textarea
-                ref="configsRef"
-                value={JSON.stringify(node.configs||{}, null, '  ')}
-                onChange={this.onChange}>
-            </textarea>
-            <textarea
-                ref="uiRef"
-                value={JSON.stringify(node.ui||{}, null, '  ')||{}}
-                onChange={this.onChange}>
-            </textarea>
-        </div>);
+        let { node, onChange, schema } = this.props;
+
+        return (
+            <Form
+                schema = { schema }
+                onChange = { onChange }
+                formData = { node }
+                />
+        )
+    }
+}
+
+class EditorContainer extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
-});
+    onChange(e) {
+        console.log('changed');
+    }
 
-export default Editor;
+    render() {
+        const node = this.props.getActiveNode();
+
+        console.log(node);
+
+        if (!node) {
+            return null;
+        }
+
+        let uiSchema = Object.assign({}, uiFormEditorSchema, { properties: uiEditPropertiesSchema[node.configs.type] });
+        console.log(uiSchema);
+
+        return (
+            <div className="form-editor">
+                <Editor schema={ commonEditFormSchema } node={ node } onChange={ this.onChange.bind(this) } />
+                <Editor schema={ uiSchema }  node={ node } onChange={ this.onChange.bind(this) } />
+            </div>
+        );
+    }
+};
+
+export default EditorContainer;
