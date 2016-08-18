@@ -110,6 +110,7 @@ class EditorContainer extends React.Component {
 
         if (properties) {
 
+            // rebuild ui schema
             let common_properties = uiFormEditorSchema.properties; 
             let props = {...properties, ...common_properties};
 
@@ -117,8 +118,6 @@ class EditorContainer extends React.Component {
                 'type': 'object',
                 properties: props
             };
-
-            console.log(uiSchema);
 
             let { ui } = node;
 
