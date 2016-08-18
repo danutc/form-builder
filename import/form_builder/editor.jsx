@@ -72,11 +72,21 @@ class EditorContainer extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
+        this.onChangeUi = this.onChangeUi.bind(this);
+    }
+
+    onChangeUi(e) {
+        let { formData } = e;
+        // rearrange the configs since the form data is mixed up with the configs at
+        // this moment
+        let new_data = {
+            ui: formData,
+        };
+        this.props.onChange(e, new_data);
     }
 
     onChange(e) {
         let { formData } = e;
-
         // rearrange the configs since the form data is mixed up with the configs at
         // this moment
         let new_data = {
@@ -109,7 +119,7 @@ class EditorContainer extends React.Component {
 
             let { ui } = node;
 
-            uiComponent = (<Editor schema={ uiSchema }  node={ ui } onChange={ this.onChange } />);
+            uiComponent = (<Editor schema={ uiSchema }  node={ ui } onChange={ this.onChangeUi} />);
         }
 
         return (
