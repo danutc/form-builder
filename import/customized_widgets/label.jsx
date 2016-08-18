@@ -6,10 +6,10 @@ export default class Label extends React.Component {
   }
 
   render() {
-    let { value } = this.props;
+    let { title } = this.props.schema;
     return (
       <h2 className="label-array">
-        { value }
+        { title }
       </h2>
     )
   }

@@ -22,6 +22,15 @@ preset.array = {
     }
 };
 
+preset.label = {
+    "JSONSchema":{
+        "type": "string",
+        "title": "Label"
+    },
+    "UISchema":{
+        "ui:field":"label"
+    }
+};
 
 preset.input = {
     "JSONSchema":{
@@ -114,6 +123,9 @@ preset.datetime = {
         "type": "string",
         "title": "Datetime",
         "format": "datetime"
+    },
+    "UISchema":{
+        "ui:field":"dateTime"
     }
 };
 

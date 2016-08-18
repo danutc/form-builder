@@ -14,7 +14,7 @@ class DateTime extends React.Component {
     this.onChange = (dateObject) => {
       let datetime = dateObject.format(this.props.format);
       this.setState({ datetime });
-      onChange({ datetime });
+      onChange( datetime );
     };
 
     this.onChange.bind(this);
@@ -24,7 +24,6 @@ class DateTime extends React.Component {
 
     return <DateTimeField
       onChange={this.onChange}
-      dateFormat={this.props.format.replace('LT ', '')}
       defaultValue={this.state.datetime}
     />;
   }
