@@ -5,15 +5,11 @@ import Form from 'react-jsonschema-form';
 // Json scheme editor properties
 //--------------------------------------------------------------------------------
 var commonEditFormSchema = {
-    type: 'object',
-
-    properties: {
-        label: { type: 'string', title: 'Label' },
-        class: { type: 'string', title: 'Class' },
-        name: { type: 'string', title: 'Name' },
-        defaultValue: { type: 'string', title: 'Default Value' },
-        placeHolder: { type: 'string', title: 'Place Holder' },
-        hint: { type: 'string', title: 'Hint' },
+    "type": 'object',
+    "properties": {
+        "title": { type: 'string', title: 'Label' },
+        "name": { type: 'string', title: 'Name' },
+        "default": { type: 'string', title: 'Default Value' },
     }
 }
 
@@ -25,6 +21,9 @@ let uiFormEditorSchema = {
     "type": 'object',
     "title": 'UI Widget Configuration',
     "properties": {
+        "classNames": { type: 'string', title: 'Class' },
+        "placeHolder": {type: 'string', title: 'Place holder'},
+        "hint": {type: 'string', title: 'Hint'},
     }
 }
 
@@ -48,6 +47,9 @@ let uiEditPropertiesSchema = {
     }
 }
 
+//--------------------------------------------------------------------------------
+// Editor Components
+//--------------------------------------------------------------------------------
 class Editor extends React.Component {
     constructor(props) {
         super(props);
@@ -69,28 +71,44 @@ class Editor extends React.Component {
 class EditorContainer extends React.Component {
     constructor(props) {
         super(props);
+        this.onChange = this.onChange.bind(this);
     }
 
     onChange(e) {
-        console.log('changed');
+        let { formData } = e;
+
+        // rearrange the configs since the form data is mixed up with the configs at
+        // this moment
+        let new_data = {
+            configs: formData,
+        };
+        this.props.onChange(e, new_data);
     }
 
     render() {
         const node = this.props.getActiveNode();
 
-        console.log(node);
-
         if (!node) {
             return null;
         }
 
-        let uiSchema = Object.assign({}, uiFormEditorSchema, { properties: uiEditPropertiesSchema[node.configs.type] });
-        console.log(uiSchema);
+        let properties = uiEditPropertiesSchema[node.configs.type];
+        let uiComponent = (null);
+
+        if (properties) {
+            let uiSchema = Object.assign({}, uiFormEditorSchema, {
+                properties
+            });
+
+            let { ui } = node;
+
+            uiComponent = (<Editor schema={ uiSchema }  node={ ui } onChange={ this.onChange } />);
+        }
 
         return (
             <div className="form-editor">
-                <Editor schema={ commonEditFormSchema } node={ node } onChange={ this.onChange.bind(this) } />
-                <Editor schema={ uiSchema }  node={ node } onChange={ this.onChange.bind(this) } />
+                <Editor schema={ commonEditFormSchema } node={ node.configs } onChange={ this.onChange } />
+                {uiComponent}
             </div>
         );
     }
