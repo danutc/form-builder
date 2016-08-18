@@ -110,18 +110,18 @@ const GeneralEditor = React.createClass({
 
 const Editor = React.createClass({
     onChange(e){
-        const new_data = {
+        let ui = JSON.parse(this.refs.uiEditorRef.value);
+        let new_data = {
             name: this.refs.nameRef.value,
             configs: JSON.parse(this.refs.configsRef.value),
-            ui: JSON.parse(this.refs.uiRef.value),
+            ui: JSON.parse(this.refs.uiEditorRef.value),
         };
-        console.log(new_data);
+        new_data.ui = ui;
         this.props.onChange(e, new_data);
     },
     render() {
         //const {onChange} = this.props;
         const node = this.props.getActiveNode();
-        console.log('====================');
         if(!node)  return null;
         return (<div>
             <input ref="nameRef" type="text" value={node.name} onChange={this.onChange} />
@@ -131,7 +131,7 @@ const Editor = React.createClass({
                 onChange={this.onChange}>
             </textarea>
             <textarea
-                ref="uiRef"
+                ref="uiEditorRef"
                 value={JSON.stringify(node.ui||{}, null, '  ')||{}}
                 onChange={this.onChange}>
             </textarea>

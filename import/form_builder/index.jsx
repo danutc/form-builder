@@ -18,6 +18,7 @@ import deepcopy from 'deepcopy';
 
 import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode, getParent} from './utils.js';
 
+
 const tree = injectUiSchema(
     decompile({ "title": "A registration form", "description": "A simple form example.", "type": "object", "required": [ "firstName", "lastName" ], "properties": { "firstName": { "type": "string", "title": "First name" }, "lastName": { "type": "string", "title": "Last name" }, "age": { "type": "integer", "title": "Age" }, "bio": { "type": "string", "title": "Bio" }, "password": { "type": "string", "title": "Password", "minLength": 3 } } }),
     { "age": { "ui:widget": "updown" }, "bio": { "ui:widget": "textarea" }, "password": { "ui:widget": "password", "ui:help": "Hint: Make it strong!" }, "date": { "ui:widget": "alt-datetime" } }
@@ -30,6 +31,7 @@ const TreeWithRightClick = ContextMenuLayer(
         return props;
     }
 )(Tree);
+
 
 const App = React.createClass({
     getInitialState() {
@@ -154,13 +156,12 @@ const App = React.createClass({
     onNodeUpdate(e,data){
         console.log(data);
         let active = Object.assign(this.state.active, data);
-        console.log("data ====================");
-        console.log(data);
         this.setState({
             active
         });
     },
     getActiveNode(){
+        console.log(this.state.active);
         return this.state.active;
     },
     onDataChange(e){
@@ -174,6 +175,7 @@ const App = React.createClass({
             getUiOrder(schema),
             extractUiSchema(this.state.active||this.state.tree),
         );
+        console.log(this.state.active);
         return (
             <div className="app">
                 <div className="tree" onContextMenu={this.onContextMenu}>
@@ -254,10 +256,10 @@ const App = React.createClass({
             tree,
             JSON.parse(uiSchemaRef.value)
         );
-
         tree.name='root';
         this.setState({
-            tree: tree
+            tree: tree,
+            active: undefined
         });
     }
 });
