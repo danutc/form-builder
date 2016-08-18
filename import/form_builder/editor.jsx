@@ -29,8 +29,9 @@ let uiFormEditorSchema = {
 
 let uiEditPropertiesSchema = {
     'integer': {
-        "type": {
+        "ui:widget": {
             "type": "number",
+            "title": 'type',
             "enum": [
                 "updown",
                 "range"
@@ -38,9 +39,11 @@ let uiEditPropertiesSchema = {
         }
     },
     'string': {
-        "type": {
+        "ui:widget": {
             "type": "string",
+            "title": 'type',
             "enum": [
+                "input",
                 "textarea"
             ]
         }
