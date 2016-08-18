@@ -96,9 +96,16 @@ class EditorContainer extends React.Component {
         let uiComponent = (null);
 
         if (properties) {
-            let uiSchema = Object.assign({}, uiFormEditorSchema, {
-                properties
-            });
+
+            let common_properties = uiFormEditorSchema.properties; 
+            let props = {...properties, ...common_properties};
+
+            let uiSchema = {
+                'type': 'object',
+                properties: props
+            };
+
+            console.log(uiSchema);
 
             let { ui } = node;
 
