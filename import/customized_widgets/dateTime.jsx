@@ -1,7 +1,7 @@
 import React from 'react';
 import DateTimeField from 'react-datetime';
 import moment from 'moment';
-import 'react-datetime/css/react-datetime.css';
+//import 'react-datetime/css/react-datetime.css';
 
 class DateTime extends React.Component {
   constructor(props) {
