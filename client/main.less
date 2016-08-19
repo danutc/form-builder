@@ -131,23 +131,39 @@
     clear: both;
     font-weight: 400;
     line-height: 1.5;
-    color: #373a3c;
+    color: white;
     text-align: inherit;
     white-space: nowrap;
-    background: 0 0;
+    color: #373a3c;
     border: 0;
 }
 
 .react-context-menu-link.active,
 .react-context-menu-link:hover {
-    color: #fff;
-    background-color: #0275d8;
+    color: #373a3c;
+    // background-color: #0275d8;
     border-color: #0275d8;
     text-decoration: none;
 }
-.react-context-menu-item.submenu > a {
-    padding-right: 27px;
+
+.react-context-menu-link.active {
+  background-color: #ddd;
 }
+
+.menu-sub-item {
+  color: white;
+} 
+
+.card-header {
+  display: block;
+  background: #eee; 
+  color: black;
+  padding: 5px;
+}
+
+ul.menu-item-area {
+  list-style: none;
+} 
 
 .react-context-menu-item.submenu > a:after {
     content: "▶";

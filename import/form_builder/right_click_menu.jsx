@@ -1,45 +1,83 @@
 import React from 'react';
 
 import { ContextMenu, MenuItem, ContextMenuLayer } from "react-contextmenu";
+import {Treebeard} from 'react-treebeard';
 
-const widgets = [
-    ['object','Object'],
-    ['array','Array'],
-    ['input','Input'],
-    ['checkbox','Checkbox'],
-    ['radio','Radio'],
-    ['email','Email'],
-    ['textarea','Text Area'],
-    ['date','Date'],
-    ['datetime','Date/Time'],
-    ['uri','Uri'],
-    ['wysiwyg','Wysiwyg'],
-];
+const widgetTypes = {
+    'array': [],
+    'custom widgets': [],
+    'object': [],
+    'string': [{ name: 'default' }, { name: 'textarea' }],
+    'boolean': [{ name: 'default' }, { name: 'checkbox' }],
+    'number': [],
+    'integer': []
+}
+
+class TreeMenu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.onToggle = this.onToggle.bind(this);
+    }
+
+    onToggle(node, toggled) {
+        if (this.state.cursor) { this.state.cursor.active = false; }
+        node.active = true;
+        if (node.children) { node.toggled = toggled; }
+        this.setState({ cursor: node });
+        let { onClick } = this.props;
+
+        onClick(this, node);
+    }
+
+    render() {
+        let { data } = this.props; 
+
+        return (
+            <Treebeard
+                data={data}
+                onToggle={this.onToggle}
+                />
+        );
+    }
+}
 
 const MyContextMenu = React.createClass({
     render() {
-        console.log(this);
-        console.log(this.state);
-        const widgets = this.props.presetItems.map((i)=>[i,i]);
+        const { presetItems } = this.props;
+        
+        const widgets = [];
+        for (let k in widgetTypes) {
+            widgets.push([k, widgetTypes[k]]);
+        } 
+
+        let tree = {
+            name: 'Fields',
+            toggled: false,
+            children: []
+        }
+
+        widgets.map((w, idx) => {
+            tree.children.push({name: w[0], children: w[1] || []});
+        })
+
+        console.log('tree');
+        console.log(tree);
+        
         return (
             <ContextMenu identifier="tree" currentItem={this.currentItem}>
-                {widgets.map((widget)=>(
-                     <MenuItem key={widget[0]} onClick={this.handleClick} data={{item:widget[0]}}>
-                         {widget[1]}
-                     </MenuItem>
-                 ))}
-                     <hr />
-                     <MenuItem onClick={this.handleClick} data={{action:'delete'}}>
-                         Delete
-                     </MenuItem>
+                <TreeMenu data={tree} onClick={this.handleClick}/>
             </ContextMenu>
         );
     },
     handleClick(e, data) {
-        if(data.action=='delete'){
+        console.log('item selected');
+
+        console.log(data.name);
+        if (data.action == 'delete') {
             this.props.onDeleteItem(e);
-        }else{
-            this.props.onNewItem(e, data.item);
+        } else {
+            this.props.onNewItem(e, data.name);
         }
     }
 });

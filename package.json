@@ -12,12 +12,15 @@
     "meteor-node-stubs": "^0.2.3",
     "react": "^15.3.0",
     "react-cardstack": "^0.1.1",
+    "react-collapse": "^2.3.3",
     "react-contextmenu": "^1.6.2",
     "react-dom": "^15.3.0",
     "react-expandable-listview": "^0.5.1",
+    "react-height": "^2.1.1",
     "react-jsonschema-form": "^0.38.0",
     "react-motion": "^0.4.4",
     "react-portal-tooltip": "^1.1.4",
+    "react-treebeard": "^1.1.2",
     "react-ui-tree": "^2.5.0"
   },
   "devDependencies": {
