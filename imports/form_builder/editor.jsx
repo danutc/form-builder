@@ -8,7 +8,6 @@ var commonEditFormSchema = {
     "type": 'object',
     "properties": {
         "title": { type: 'string', title: 'Label' },
-        "name": { type: 'string', title: 'Name' },
         "default": { type: 'string', title: 'Default Value' },
     }
 }
@@ -111,7 +110,7 @@ class EditorContainer extends React.Component {
         if (properties) {
 
             // rebuild ui schema
-            let common_properties = uiFormEditorSchema.properties; 
+            let common_properties = uiFormEditorSchema.properties;
             let props = {...properties, ...common_properties};
 
             let uiSchema = {
@@ -126,6 +125,7 @@ class EditorContainer extends React.Component {
 
         return (
             <div className="form-editor">
+              <Form schema={{type:'string',title:'Name'}} formData={node.name} onChange={(e)=>{console.log(name) ;this.props.onChange(e,{name:e.formData}) }} />
                 <Editor schema={ commonEditFormSchema } node={ node.configs } onChange={ this.onChange } />
                 {uiComponent}
             </div>
