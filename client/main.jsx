@@ -5,6 +5,9 @@ import preset from './preset.js'
 import Form from 'react-jsonschema-form';
 import "../node_modules/react-ui-tree/dist/react-ui-tree.css";
 import customized_widgets from "../import/customized_widgets";
+import "../node_modules/react-datetime/css/react-datetime.css";
+
+
 const Editor = React.createClass({
     getInitialState() {
         return {
