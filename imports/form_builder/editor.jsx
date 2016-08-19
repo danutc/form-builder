@@ -65,7 +65,7 @@ class Editor extends React.Component {
                 schema = { schema }
                 onChange = { onChange }
                 formData = { node }
-                />
+          ><button hidden></button></Form>
         )
     }
 }
@@ -125,8 +125,10 @@ class EditorContainer extends React.Component {
 
         return (
             <div className="form-editor">
-              <Form schema={{type:'string',title:'Name'}} formData={node.name} onChange={(e)=>{console.log(name) ;this.props.onChange(e,{name:e.formData}) }} />
+                <Form schema={{type:'string',title:'Name'}} formData={node.name} onChange={(e)=>{console.log(name) ;this.props.onChange(e,{name:e.formData}) }} ><button hidden></button></Form>
+                <hr />
                 <Editor schema={ commonEditFormSchema } node={ node.configs } onChange={ this.onChange } />
+                <hr />
                 {uiComponent}
             </div>
         );
