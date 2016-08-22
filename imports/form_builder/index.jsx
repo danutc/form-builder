@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import cx from 'classname';
 
 import Tree from 'react-ui-tree';
-import Form from 'react-jsonschema-form';
+import _Form from 'react-jsonschema-form';
 //import App from '../imports/index.js';
 
 import { RightClickMenu } from './right_click_menu';
@@ -17,6 +17,9 @@ import Editor from './editor';
 import deepcopy from 'deepcopy';
 
 import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode, getParent} from './utils.js';
+
+import extensions from '../form_engine_extensions';
+const Form = extensions.inline_validation(_Form);
 
 const tree = injectUiSchema(
   decompile({
@@ -77,55 +80,6 @@ const TreeWithRightClick = ContextMenuLayer(
     }
 )(Tree);
 
-function bv2(schema){
-  //console.log('build validator');
-  let validator = function(schema,error){return error;};
-  if(!schema){
-    return validator;
-  }
-
-  if(schema.validate){
-    console.log(schema.validate);
-    const _validators = schema.validate.map(function(a){
-      return {
-        clause: new Function('return ('+a.clause+');'),
-        message: a.message
-      };
-    });
-    validator = function(formData, errors){
-      //console.log('====================');
-      //console.log([formData,errors,_validators]);
-      const err = _validators.find(function(v){
-        return v.clause.call(formData);
-      });
-      if(err){
-        errors.addError(err.message);
-      }
-      return errors;
-    };
-  }
-  if(schema.type == 'object'){
-    let children_validators = Object.keys(schema.properties).map(function(name){
-      return [name,bv2(schema.properties[name])];
-    });
-    //console.log(children_validators);
-    return function(formData,errors){
-      console.log(formData,errors,children_validators);
-      errors = children_validators.reduce(function(e, c){
-        e[c[0]] = c[1](formData[c[0]],e[c[0]]);
-        return e;
-      }, errors);
-      errors = validator(formData, errors);
-
-      //console.log(errors);
-
-      return errors;
-    };
-  }
-  console.log(validator,'validator');
-
-  return validator;
-}
 
 const App = React.createClass({
     getInitialState() {
@@ -302,7 +256,6 @@ const App = React.createClass({
                         fields={ this.props.fields }
                         onChange={ this.onDataChange }
                         formData={ this.state.tree == this.state.active || !this.state.active ? this.state.formData : undefined}
-                        validate={bv2(schema)}
                         liveValidate={true}
                         />
                     <hr />
