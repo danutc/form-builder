@@ -31,7 +31,7 @@ class TreeMenu extends React.Component {
     }
 
     render() {
-        let { data } = this.props; 
+        let { data } = this.props;
 
         return (
             <Treebeard
@@ -43,13 +43,17 @@ class TreeMenu extends React.Component {
 }
 
 const MyContextMenu = React.createClass({
+    getInitialState() {
+      console.log('=========init contextmenu===========');
+      return {};
+    },
     render() {
         const { presetItems } = this.props;
-        
+
         const widgets = [];
         for (let k in widgetTypes) {
             widgets.push([k, widgetTypes[k]]);
-        } 
+        }
 
         let tree = {
             name: 'Fields',
@@ -63,7 +67,7 @@ const MyContextMenu = React.createClass({
 
         console.log('tree');
         console.log(tree);
-        
+
         return (
             <ContextMenu identifier="tree" currentItem={this.currentItem}>
                 <TreeMenu data={tree} onClick={this.handleClick}/>

@@ -9,6 +9,13 @@ var commonEditFormSchema = {
     "properties": {
         "title": { type: 'string', title: 'Label' },
         "default": { type: 'string', title: 'Default Value' },
+        "validate":{ type: 'array',title:"Validate",items:{
+          type:'object',
+          properties:{
+            clause:{type:'string',title:'Clause'},
+            message:{type:'string',title:'Message'}
+          }
+        }}
     }
 }
 
@@ -69,6 +76,7 @@ class Editor extends React.Component {
         )
     }
 }
+
 
 class EditorContainer extends React.Component {
     constructor(props) {

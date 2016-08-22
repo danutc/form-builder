@@ -19,10 +19,56 @@ import deepcopy from 'deepcopy';
 import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode, getParent} from './utils.js';
 
 const tree = injectUiSchema(
-    decompile({ "title": "A registration form", "description": "A simple form example.", "type": "object", "required": ["firstName", "lastName"], "properties": { "firstName": { "type": "string", "title": "First name" }, "lastName": { "type": "string", "title": "Last name" }, "age": { "type": "integer", "title": "Age" }, "bio": { "type": "string", "title": "Bio" }, "password": { "type": "string", "title": "Password", "minLength": 3 } } }),
+  decompile({
+    "title": "A registration form",
+    "description": "A simple form example.",
+    "type": "object",
+    "validate":[{
+      "clause":"this.firstName != this.lastName",
+      "message":"First Name and last name must be the same."
+    }],
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "title": "First name",
+        "validate": [{
+          "clause": "this == 'foo'",
+          "message": "First Name cannot be foo"
+        },{
+          "clause":"this == 'bar'",
+          "message": "First Name cannot be bar"
+        }]
+      },
+      "lastName": {
+        "type": "string",
+        "title": "Last name"
+      },
+      "age": {
+        "type": "integer",
+        "title": "Age"
+      },
+      "bio": {
+        "type": "string",
+        "title": ""
+      },
+      "password": {
+        "type": "string",
+        "title": "Password",
+        "minLength": 3
+      }
+    }
+  }),
     { "age": { "ui:widget": "updown" }, "bio": { "ui:widget": "textarea" }, "password": { "ui:widget": "password", "ui:help": "Hint: Make it strong!" }, "date": { "ui:widget": "alt-datetime" } }
 );
 
+
+const formData = {
+  "firstName": "Chuck",
+  "lastName": "Norris",
+  "age": 75,
+  "bio": "Roundhouse kicking asses since 1940",
+  "password": "noneed"
+};
 
 const TreeWithRightClick = ContextMenuLayer(
     'tree',
@@ -30,6 +76,56 @@ const TreeWithRightClick = ContextMenuLayer(
         return props;
     }
 )(Tree);
+
+function bv2(schema){
+  //console.log('build validator');
+  let validator = function(schema,error){return error;};
+  if(!schema){
+    return validator;
+  }
+
+  if(schema.validate){
+    console.log(schema.validate);
+    const _validators = schema.validate.map(function(a){
+      return {
+        clause: new Function('return ('+a.clause+');'),
+        message: a.message
+      };
+    });
+    validator = function(formData, errors){
+      //console.log('====================');
+      //console.log([formData,errors,_validators]);
+      const err = _validators.find(function(v){
+        return v.clause.call(formData);
+      });
+      if(err){
+        errors.addError(err.message);
+      }
+      return errors;
+    };
+  }
+  if(schema.type == 'object'){
+    let children_validators = Object.keys(schema.properties).map(function(name){
+      return [name,bv2(schema.properties[name])];
+    });
+    //console.log(children_validators);
+    return function(formData,errors){
+      console.log(formData,errors,children_validators);
+      errors = children_validators.reduce(function(e, c){
+        e[c[0]] = c[1](formData[c[0]],e[c[0]]);
+        return e;
+      }, errors);
+      errors = validator(formData, errors);
+
+      //console.log(errors);
+
+      return errors;
+    };
+  }
+  console.log(validator,'validator');
+
+  return validator;
+}
 
 const App = React.createClass({
     getInitialState() {
@@ -174,7 +270,7 @@ const App = React.createClass({
             getUiOrder(schema),
             extractUiSchema(this.state.active || this.state.tree),
         );
-        
+
         return (
             <div className="app">
                 <div className="tree col-md-3" onContextMenu={this.onContextMenu}>
@@ -206,6 +302,8 @@ const App = React.createClass({
                         fields={ this.props.fields }
                         onChange={ this.onDataChange }
                         formData={ this.state.tree == this.state.active || !this.state.active ? this.state.formData : undefined}
+                        validate={bv2(schema)}
+                        liveValidate={true}
                         />
                     <hr />
                     <textarea
