@@ -19,6 +19,7 @@ import deepcopy from 'deepcopy';
 import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode, getParent} from './utils.js';
 
 import extensions from '../form_engine_extensions';
+
 const Form = extensions.inline_validation(_Form);
 
 const tree = injectUiSchema(
@@ -127,7 +128,17 @@ const App = React.createClass({
                     'is-active': node === this.state.active
                 }) }
                 >
-                {node.name + (node.configs && node.configs.type ? ' - [' + node.configs.type + ']' : '') }
+          {node.name + (node.configs && node.configs.type ? ' - [' + node.configs.type + ']' : '') }
+          {(node!=this.state.tree)?
+              (<a
+                  href="#"
+                  style={{flow:'right'}}
+                onClick={(e)=>{this.onDeleteItem(e,node);e.stopPropagation();}}>
+                ✘
+              </a>)
+            :
+              null
+          }
             </span>
 
         );
@@ -148,8 +159,11 @@ const App = React.createClass({
     onContextMenu(event) {
 
     },
-    onDeleteItem(e) {
-        let active = this.state['active'];
+    onDeleteItem(e, item) {
+        let active = item||this.state['active'];
+        if(!confirm('Node "'+active.name+'" will be deleted!')){
+          return
+        }
         console.log(this.state.tree, active);
         if (active) {
             this.setState({
@@ -160,7 +174,10 @@ const App = React.createClass({
     },
     onNewItem(e, item_type) {
         let active = this.state['active'];
+      console.log(active.name);
         const preset = this.state.preset;
+        console.log(item_type);
+        console.log(preset);
         function addChildren(parent, item_type, after_child) {
             function genNewName(parent, item_type) {
                 let new_name = item_type;
@@ -187,14 +204,15 @@ const App = React.createClass({
             }
             return new_item;
         }
-        if (active.children) {
-            if (active.configs.type == 'object') {
+        if (active.configs.type == 'object') {
+            if (active.children) {
                 this.setState({
                     active: addChildren(active, item_type)
                 });
             }
         } else {
             let parent = getParent(this.state.tree, active);
+            console.log(parent);
             this.setState({
                 active: addChildren(parent, item_type, active)
             });

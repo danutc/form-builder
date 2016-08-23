@@ -7,8 +7,8 @@ const widgetTypes = {
     'array': [],
     'custom widgets': [],
     'object': [],
-    'string': [{ name: 'default' }, { name: 'textarea' }],
-    'boolean': [{ name: 'default' }, { name: 'checkbox' }],
+    'string': [{ name: 'string' }, { name: 'textarea' }],
+    'boolean': [{ name: 'radio' }, { name: 'checkbox' }],
     'number': [],
     'integer': []
 }
@@ -71,6 +71,9 @@ const MyContextMenu = React.createClass({
         return (
             <ContextMenu identifier="tree" currentItem={this.currentItem}>
                 <TreeMenu data={tree} onClick={this.handleClick}/>
+                <TreeMenu data={{
+                    name: 'delete'
+                  }} onClick={this.handleClick}/>
             </ContextMenu>
         );
     },
@@ -78,7 +81,7 @@ const MyContextMenu = React.createClass({
         console.log('item selected');
 
         console.log(data.name);
-        if (data.action == 'delete') {
+        if (data.name == 'delete') {
             this.props.onDeleteItem(e);
         } else {
             this.props.onNewItem(e, data.name);

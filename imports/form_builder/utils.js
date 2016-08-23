@@ -85,7 +85,7 @@ function getParent(tree, node){
         if(tree.children.indexOf(node)>=0)
             return tree;
         for(var i in tree.children){
-            let r = getParent(tree.children, node);
+            let r = getParent(tree.children[i], node);
             if(r) return r;
         }
     }

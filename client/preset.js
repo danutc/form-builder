@@ -39,6 +39,13 @@ preset.input = {
     }
 };
 
+preset.string = {
+  "JSONSchema":{
+    "type": "string",
+    "title": "Input"
+  }
+};
+
 preset.selectbox = {
     "JSONSchema":{
         "type": "string",
