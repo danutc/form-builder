@@ -23,45 +23,7 @@ import extensions from '../form_engine_extensions';
 const Form = extensions.inline_validation(_Form);
 
 const tree = injectUiSchema(
-  decompile({
-    "title": "A registration form",
-    "description": "A simple form example.",
-    "type": "object",
-    "validate":[{
-      "clause":"this.firstName != this.lastName",
-      "message":"First Name and last name must be the same."
-    }],
-    "properties": {
-      "firstName": {
-        "type": "string",
-        "title": "First name",
-        "validate": [{
-          "clause": "this == 'foo'",
-          "message": "First Name cannot be foo"
-        },{
-          "clause":"this == 'bar'",
-          "message": "First Name cannot be bar"
-        }]
-      },
-      "lastName": {
-        "type": "string",
-        "title": "Last name"
-      },
-      "age": {
-        "type": "integer",
-        "title": "Age"
-      },
-      "bio": {
-        "type": "string",
-        "title": ""
-      },
-      "password": {
-        "type": "string",
-        "title": "Password",
-        "minLength": 3
-      }
-    }
-  }),
+  decompile({"type":"object","properties":{"title":{"type":"string","title":"Label"},"default":{"type":"string","title":"Default Value"},"validate":{"type":"array","title":"Validate","items":{"type":"object","properties":{"clause":{"type":"string","title":"Clause"},"message":{"type":"string","title":"Message"}}}}}}),
     { "age": { "ui:widget": "updown" }, "bio": { "ui:widget": "textarea" }, "password": { "ui:widget": "password", "ui:help": "Hint: Make it strong!" }, "date": { "ui:widget": "alt-datetime" } }
 );
 
@@ -327,7 +289,7 @@ const App = React.createClass({
     },
     updateSchema() {
         const {treeRef} = this.refs;
-        this.setState({ tree: JSON.parse(treeRef.valu) });
+        this.setState({ tree: JSON.parse(treeRef.value) });
     },
     updateTree() {
         //var tree = this.state.tree;

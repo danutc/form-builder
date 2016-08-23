@@ -192,9 +192,10 @@ function extractFormDate(n, data){
 */
 function injectUiSchema(n,uiSchema){
     let node = Object.assign({},n);
-    uiSchema = uiSchema || {};
+  uiSchema = uiSchema || {};
+  console.log(uiSchema);
     for(var i in uiSchema){
-        if(i.startsWith('ui:')){
+      if(i.startsWith('ui:') || i=='classNames' && typeof(uiSchema[i])=='string'){
             node.ui = node.ui||{};
             node.ui[i]=uiSchema[i];
         }

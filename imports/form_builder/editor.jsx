@@ -54,6 +54,7 @@ let uiEditPropertiesSchema = {
             ]
         }
     }
+
 }
 
 //--------------------------------------------------------------------------------
@@ -130,7 +131,6 @@ class EditorContainer extends React.Component {
 
             uiComponent = (<Editor schema={ uiSchema }  node={ ui } onChange={ this.onChangeUi} />);
         }
-
         return (
             <div className="form-editor">
                 <Form schema={{type:'string',title:'Name'}} formData={node.name} onChange={(e)=>{console.log(name) ;this.props.onChange(e,{name:e.formData}) }} ><button hidden></button></Form>
