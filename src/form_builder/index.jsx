@@ -1,5 +1,4 @@
 import React from 'react';
-import { Meteor } from 'meteor/meteor';
 import cx from 'classname';
 
 import Tree from 'react-ui-tree';
