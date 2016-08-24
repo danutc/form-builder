@@ -20,21 +20,9 @@ import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteN
 
 import extensions from '../form_engine_extensions';
 
+
+// Add support for inline validation
 const Form = extensions.inline_validation(_Form);
-
-const tree = injectUiSchema(
-  decompile({"type":"object","properties":{"title":{"type":"string","title":"Label"},"default":{"type":"string","title":"Default Value"},"validate":{"type":"array","title":"Validate","items":{"type":"object","properties":{"clause":{"type":"string","title":"Clause"},"message":{"type":"string","title":"Message"}}}}}}),
-    { "age": { "ui:widget": "updown" }, "bio": { "ui:widget": "textarea" }, "password": { "ui:widget": "password", "ui:help": "Hint: Make it strong!" }, "date": { "ui:widget": "alt-datetime" } }
-);
-
-
-const formData = {
-  "firstName": "Chuck",
-  "lastName": "Norris",
-  "age": 75,
-  "bio": "Roundhouse kicking asses since 1940",
-  "password": "noneed"
-};
 
 const TreeWithRightClick = ContextMenuLayer(
     'tree',
@@ -43,10 +31,8 @@ const TreeWithRightClick = ContextMenuLayer(
     }
 )(Tree);
 
-
 const App = React.createClass({
     getInitialState() {
-        console.log(this.props);
         function buildPresetLoader(preset) {
             let presetLoader = {};
             for (var i in preset) {
@@ -64,7 +50,11 @@ const App = React.createClass({
             return presetLoader;
         }
         const preset = this.props.preset;
-        console.log(preset);
+
+        const {formName,formSchema:{schema,uiSchema}} = this.props;
+        let tree = injectUiSchema( decompile(schema), uiSchema);
+        tree.name = formName;
+
         return {
             active: null,
             tree: tree,
@@ -243,7 +233,10 @@ const App = React.createClass({
                         onChange={ this.onDataChange }
                         formData={ this.state.tree == this.state.active || !this.state.active ? this.state.formData : undefined}
                         liveValidate={true}
-                        />
+                        onSubmit = { (e)=>(this.props.onSubmit({name:this.state.tree.name,schema,uiSchema})) }
+                    >
+                      {(this.state.active?<button hidden></button>:null)}
+                    </Form>
                     <hr />
                     <textarea
                         ref="schemaRef"
@@ -305,8 +298,7 @@ const App = React.createClass({
             tree,
             JSON.parse(uiSchemaRef.value)
         );
-
-        tree.name = 'root';
+        tree.name = this.state.tree.name || 'root';
         this.setState({
             tree: tree
         });

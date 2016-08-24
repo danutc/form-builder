@@ -21,7 +21,10 @@ const Editor = React.createClass({
     formData = e.formData;
     this.props.onChange(e.formData);
   },
-
+  onSubmit(formSchema){
+    console.log('====================');
+    console.log(formSchema);
+  },
   render(){
     const schema={
       'type': 'object',
@@ -170,6 +173,66 @@ const App = React.createClass({
 
 
 Meteor.startup(() => {
+  function onSubmit(formSchema){
+    console.log('====================');
+    console.log(formSchema);
+  }
   console.log(preset);
-  render(<App2 preset={preset} fields={customized_widgets}/>, document.getElementById('app'));
+  render(<App2
+             preset={preset}
+             fields={customized_widgets}
+             onSubmit={onSubmit}
+             formName={"developing"}
+             formSchema={{
+                 schema:{
+                   "title": "A registration form",
+                   "description": "A simple form example.",
+                   "type": "object",
+                   "required": [
+                     "firstName",
+                     "lastName"
+                   ],
+                   "properties": {
+                     "firstName": {
+                       "type": "string",
+                       "title": "First name"
+                     },
+                     "lastName": {
+                       "type": "string",
+                       "title": "Last name"
+                     },
+                     "age": {
+                       "type": "integer",
+                       "title": "Age"
+                     },
+                     "bio": {
+                       "type": "string",
+                       "title": "Bio"
+                     },
+                     "password": {
+                       "type": "string",
+                       "title": "Password",
+                       "minLength": 3
+                     }
+                   }
+                 },
+                 uiSchema:{
+                   "age": {
+                     "ui:widget": "updown"
+                   },
+                   "bio": {
+                     "ui:widget": "textarea"
+                   },
+                   "password": {
+                     "ui:widget": "password",
+                     "ui:help": "Hint: Make it strong!"
+                   },
+                   "date": {
+                     "ui:widget": "alt-datetime"
+                   }
+                 }
+               }}
+
+
+/>, document.getElementById('app'));
 });

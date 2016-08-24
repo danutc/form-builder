@@ -73,7 +73,6 @@ function decompile(schema){
 
 function decompileSchema(tree){
     let root = decompile(tree);
-    root.name = 'root';
     root.configs = root.configs || {type:"object"};
     root.configs.type = root.configs.type || "object";
     root.children = root.children || [];
