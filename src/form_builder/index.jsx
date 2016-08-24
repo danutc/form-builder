@@ -49,7 +49,10 @@ const App = React.createClass({
       return presetLoader;
     }
     const preset = this.props.preset;
+    console.log('====================');
 
+
+    console.log(preset);
     const {formName,formSchema:{schema,uiSchema}} = this.props;
     let tree = injectUiSchema( decompile(schema), uiSchema);
     tree.name = formName;
@@ -142,7 +145,7 @@ const App = React.createClass({
         }
         return new_name;
       }
-      new_item = preset[item_type];
+      let new_item = preset[item_type];
       new_item.name = genNewName(parent, item_type);
       if (after_child) {
         parent.children.splice(

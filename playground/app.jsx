@@ -6,12 +6,12 @@ import FormBuilder from '../src/form_builder/index.jsx';
 import customized_widgets from '../src/customized_widgets';
 import preset from './preset.js';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
   }
   onSubmit(formSchema){
-    console.log('====================');
     console.log(formSchema);
   }
   render(){
