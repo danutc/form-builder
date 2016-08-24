@@ -2,14 +2,16 @@
   "name": "form-builder",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "node devServer.js",
+    "build:lib": "rimraf lib && NODE_ENV=production babel -d lib/ src/",
+    "build:dist": "rimraf dist && NODE_ENV=production webpack --config webpack.config.dist.js --optimize-minimize",
+    "dist": "npm run build:lib && npm run build:dist"
   },
   "dependencies": {
     "classname": "0.0.0",
     "deepcopy": "^0.6.3",
     "deepmerge": "^0.2.10",
     "draft-js": "^0.8.1",
-    "meteor-node-stubs": "^0.2.3",
     "moment": "^2.14.1",
     "react": "^15.3.0",
     "react-cardstack": "^0.1.1",
@@ -26,8 +28,47 @@
     "react-treebeard": "^1.1.2",
     "react-ui-tree": "^2.5.0"
   },
+  "files": [
+    "dist",
+    "lib"
+  ],
   "devDependencies": {
-    "eslint": "^3.3.0",
-    "eslint-plugin-react": "^6.1.0"
+    "atob": "^2.0.3",
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.13.2",
+    "babel-eslint": "^6.0.2",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-plugin-transform-class-properties": "^6.6.0",
+    "babel-plugin-transform-object-rest-spread": "^6.6.5",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "chai": "^3.3.0",
+    "codemirror": "^5.13.2",
+    "css-loader": "^0.23.1",
+    "eslint": "^2.9.0",
+    "eslint-plugin-react": "^4.2.3",
+    "estraverse": "^4.2.0",
+    "estraverse-fb": "^1.3.1",
+    "express": "^4.13.3",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "gh-pages": "^0.11.0",
+    "html": "0.0.10",
+    "jsdom": "^8.3.0",
+    "mocha": "^2.5.3",
+    "react": "^15.0.0",
+    "react-addons-test-utils": "^15.0.1",
+    "react-codemirror": "^0.2.3",
+    "react-dom": "^15.0.0",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.2.3",
+    "rimraf": "^2.4.4",
+    "sinon": "^1.17.2",
+    "style-loader": "^0.13.1",
+    "toctoc": "^0.2.3",
+    "webpack": "^1.10.5",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.6.0"
   }
 }

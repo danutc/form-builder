@@ -4,7 +4,7 @@ function formData2schema(formData){
       type:'string'
     };
   }
-  if(typeof(formData)==number){
+  if(typeof(formData)=='number'){
     return {
       type:'number'
     };
