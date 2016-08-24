@@ -94,7 +94,11 @@ function inline_validation_extension(FormComponent){
       //console.log('--------------------');
     }
     render(){
-      let validate = build_validator(this.props.schema);
+      let _validate = build_validator(this.props.schema);
+      let validate = function(d,e){
+        console.log(['validate',d,e]);
+        return _validate(d,e);
+      };
       const props = Object.assign({},this.props);
       props.validate = validate;
       return (<FormComponent {

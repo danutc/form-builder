@@ -99,8 +99,10 @@ preset.checkbox = {
 
 preset.radio = {
     "JSONSchema":{
-        "type": "boolean",
-        "title": "radio buttons"
+        "type": "string",
+        "title": "radio buttons",
+      "enum":["r1","r2","r3"],
+      "enumNames":["radio 1","radio 2","radio 3"]
     },
     "UISchema":{
         "ui:widget": "radio"

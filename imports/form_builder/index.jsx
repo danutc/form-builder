@@ -182,10 +182,16 @@ const App = React.createClass({
         //this.setState({active});
     },
     onNodeUpdate(e, data) {
-        console.log(data);
-        let active = Object.assign(this.state.active, data);
-        console.log("data ====================");
-        console.log(data);
+        let active = this.state.active;
+
+        for(i in data){
+          if(typeof(data[i])=='object' && Array.isArray(data[i])){
+            active[i] = Object.assign(active[i],data[i]);
+          }else{
+            active[i] = data[i];
+          }
+        }
+      console.log(active);
         this.setState({
             active
         });

@@ -20,7 +20,7 @@
     "react-dom": "^15.3.0",
     "react-expandable-listview": "^0.5.1",
     "react-height": "^2.1.1",
-    "react-jsonschema-form": "https://github.com/clearbridgesoft/react-jsonschema-form/releases/download/v0.38.2/react-jsonschema-form-0.38.1.tgz",
+    "react-jsonschema-form": "https://github.com/clearbridgesoft/react-jsonschema-form/releases/download/v0.39.1/react-jsonschema-form-0.39.0.tgz",
     "react-motion": "^0.4.4",
     "react-portal-tooltip": "^1.1.4",
     "react-treebeard": "^1.1.2",
