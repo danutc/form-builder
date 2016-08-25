@@ -3,6 +3,8 @@ import Form from 'react-jsonschema-form';
 
 import ObjectEditor from './editor/object';
 import RadioEditor from './editor/radio';
+import BooleanInputEditor from './editor/boolean_input';
+import NumberInputEditor from './editor/number_input';
 import StringInputEditor from './editor/string_input';
 import DefaultEditor from './editor/default';
 
@@ -10,6 +12,8 @@ const editors = [
   RadioEditor,
   ObjectEditor,
   StringInputEditor,
+  BooleanInputEditor,
+  NumberInputEditor,
   DefaultEditor,
 ];
 

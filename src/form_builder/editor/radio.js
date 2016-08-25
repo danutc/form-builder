@@ -1,7 +1,8 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
-
-const schema = {
+import common from './_common';
+import deepmerge from 'deepmerge';
+const schema = deepmerge(common,{
   "type": "object",
   "properties": {
     "name": {
@@ -43,7 +44,7 @@ const schema = {
       }
     }
   }
-}
+});
 
 class Editor extends React.Component {
   onChange(e){

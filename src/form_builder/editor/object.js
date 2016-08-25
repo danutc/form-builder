@@ -1,22 +1,9 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
+import deepmerge from 'deepmerge';
+import common from "./_common.js";
+const schema = common;
 
-const schema = {
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string"
-    },
-    "configs": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-      }
-    }
-  }
-}
 
 class Editor extends React.Component {
   onChange(e){

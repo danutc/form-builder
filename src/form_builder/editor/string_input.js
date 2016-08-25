@@ -1,7 +1,9 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
 
-const schema = {
+import common from './_common';
+import deepmerge from 'deepmerge';
+const schema = deepmerge(common,{
   "type":"object",
   "properties":{
     "name":{
@@ -25,21 +27,38 @@ const schema = {
     "ui":{
       "type":"object",
       "properties":{
+        "classNames":{
+          "type":"string"
+        },
         "ui:widget": {
           "type": "string",
-          "title": 'type',
+          "title": 'widget',
           "enum": [
             "default",
             "textarea",
+            "date",
             "dateTime",
-            "label",
-            "wysiwyg"
+            "file",
+            "wysiwyg",
+            "password",
+            "color",
+            "hidden"
+          ],"enumNames":[
+            "Text box",
+            "Textarea",
+            "Date",
+            "Datetime",
+            "File",
+            "Wysiwyg",
+            "Password",
+            "Color",
+            "Hidden"
           ]
         }
       }
     }
   }
-}
+});
 
 class Editor extends React.Component {
   onChange(e){
