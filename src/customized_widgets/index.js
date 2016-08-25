@@ -1,9 +1,9 @@
-import geo from './geo.jsx';
-import wysiwyg from './wysiwyg.jsx';
-import html from './html.jsx';
-import dateTime from './dateTime.jsx';
-import label from './label.jsx';
-import paymentStatus from './paymentStatus.jsx';
+import geo from './geo';
+import wysiwyg from './wysiwyg';
+import html from './html';
+import dateTime from './dateTime';
+import label from './label';
+import paymentStatus from './paymentStatus';
 
 
 

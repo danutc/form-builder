@@ -1,10 +1,10 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
 
-import ObjectEditor from './editor/object.jsx';
-import RadioEditor from './editor/radio.jsx';
-import StringInputEditor from './editor/string_input.jsx';
-import DefaultEditor from './editor/default.jsx';
+import ObjectEditor from './editor/object';
+import RadioEditor from './editor/radio';
+import StringInputEditor from './editor/string_input';
+import DefaultEditor from './editor/default';
 
 const editors = [
   RadioEditor,
