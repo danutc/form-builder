@@ -30,7 +30,10 @@ const schema = {
           "title": 'type',
           "enum": [
             "default",
-            "textarea"
+            "textarea",
+            "dateTime",
+            "label",
+            "wysiwyg"
           ]
         }
       }

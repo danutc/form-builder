@@ -176,7 +176,7 @@ const App = React.createClass({
   onNodeUpdate(e, data) {
     let active = this.state.active;
 
-    for(i in data){
+    for(var i in data){
       if(typeof(data[i])=='object' && Array.isArray(data[i])){
         active[i] = Object.assign(active[i],data[i]);
       }else{
@@ -231,6 +231,7 @@ const App = React.createClass({
               <Form
                   schema={ schema }
                   uiSchema={ uiSchema }
+                  widgets={ this.props.widgets }
                   fields={ this.props.fields }
                   onChange={ this.onDataChange }
                   formData={ this.state.tree == this.state.active || !this.state.active ? this.state.formData : undefined}

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 
 
-import FormBuilder from '../src/form_builder/index.jsx';
-import customized_widgets from '../src/customized_widgets';
-import preset from './preset.js';
+import FormBuilder from '../src/form_builder/index';
+import custom from '../src/custom';
+import preset from './preset';
 
 
 class App extends Component {
@@ -15,9 +15,12 @@ class App extends Component {
     console.log(formSchema);
   }
   render(){
+    console.log('====================');
+    console.log(custom);
     return (<FormBuilder
                 preset={preset}
-                fields={customized_widgets}
+                widgets={custom.widgets}
+                fields={custom.fields}
                 onSubmit={this.onSubmit}
                 formName={"developing"}
                 formSchema={{

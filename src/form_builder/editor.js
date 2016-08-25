@@ -13,54 +13,6 @@ const editors = [
   DefaultEditor,
 ];
 
-
-const editorSchema = {
-  'checkboxes': {
-    'type': 'object',
-    'properties': {
-      'name': {
-        'type': 'string'
-      },
-      'configs': {
-        'type': 'object',
-        'properties': {
-          'type': {
-            'type': 'string'
-          },
-          'title': {
-            'type': 'string'
-          },
-          'items': {
-            'type': 'object',
-            'properties': {
-              'type': {
-                'type': 'string'
-              },
-              'enum': {
-                'type': 'array',
-                'items': {
-                  'type': 'string'
-                }
-              }
-            }
-          },
-          'uniqueItems': {
-            'type': 'boolean'
-          }
-        }
-      },
-      'ui': {
-        'type': 'object',
-        'properties': {
-          'ui:widget': {
-            'type': 'string'
-          }
-        }
-      }
-    }
-  }
-};
-
 class EditorContainer extends React.Component {
   onChange(e){
     this.props.onChange(e,e.formData);
