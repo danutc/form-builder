@@ -5,13 +5,13 @@ import Tree from 'react-ui-tree';
 import _Form from 'react-jsonschema-form';
 //import App from '../imports/index.js';
 
-import { RightClickMenu } from './right_click_menu';
+import { RightClickMenu } from './right_click_menu.jsx';
 import { ContextMenuLayer } from 'react-contextmenu';
 import deepMerge from 'deepmerge';
 //import preset from './preset'
 import ToolTip from 'react-portal-tooltip';
 
-import Editor from './editor';
+import Editor from './editor.jsx';
 
 import deepcopy from 'deepcopy';
 
