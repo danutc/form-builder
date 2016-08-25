@@ -1,5 +1,6 @@
 {
   "name": "form-builder",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node devServer.js",
@@ -28,6 +29,7 @@
     "react-treebeard": "^1.1.2",
     "react-ui-tree": "^2.5.0"
   },
+  "main": "lib/index.js",
   "files": [
     "dist",
     "lib"
