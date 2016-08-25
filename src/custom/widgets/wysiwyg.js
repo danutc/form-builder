@@ -19,7 +19,7 @@ class Wysiwyg extends React.Component {
     this.onChange = (editorState) => {
       let {onChange} = this.props;
       onChange(editorState);
-      this.setState({ editorState })
+      this.setState({ editorState });
     };
 
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
@@ -107,8 +107,8 @@ const styleMap = {
 
 function getBlockStyle(block) {
   switch (block.getType()) {
-    case 'blockquote': return 'RichEditor-blockquote';
-    default: return null;
+  case 'blockquote': return 'RichEditor-blockquote';
+  default: return null;
   }
 }
 

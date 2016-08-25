@@ -3,30 +3,30 @@ import Form from 'react-jsonschema-form';
 import common from './_common';
 import deepmerge from 'deepmerge';
 const schema = deepmerge(common,{
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string"
+  'type': 'object',
+  'properties': {
+    'name': {
+      'type': 'string'
     },
-    "configs": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
+    'configs': {
+      'type': 'object',
+      'properties': {
+        'type': {
+          'type': 'string'
         },
-        "enum": {
-          "type": "array",
-          "items": {
-            "type": "string"
+        'enum': {
+          'type': 'array',
+          'items': {
+            'type': 'string'
           }
         },
-        "enumNames": {
-          "type": "array",
-          "items": {
-            "type": "string"
+        'enumNames': {
+          'type': 'array',
+          'items': {
+            'type': 'string'
           }
         },
-        "validate":{ type: 'array',title:"Validate",items:{
+        'validate':{ type: 'array',title:'Validate',items:{
           type:'object',
           properties:{
             clause:{type:'string',title:'Clause'},
@@ -35,11 +35,11 @@ const schema = deepmerge(common,{
         }}
       }
     },
-    "ui": {
-      "type": "object",
-      "properties": {
-        "ui:widget": {
-          "type": "string"
+    'ui': {
+      'type': 'object',
+      'properties': {
+        'ui:widget': {
+          'type': 'string'
         }
       }
     }
@@ -65,6 +65,6 @@ class Editor extends React.Component {
 }
 
 export default {
-  filter:({configs})=>(configs.type=="string" && Array.isArray(configs.enum)),
+  filter:({configs})=>(configs.type=='string' && Array.isArray(configs.enum)),
   component: Editor
-}
+};

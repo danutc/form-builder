@@ -4,18 +4,18 @@ import Form from 'react-jsonschema-form';
 import common from './_common';
 import deepmerge from 'deepmerge';
 const schema = deepmerge(common,{
-  "type":"object",
-  "properties":{
-    "name":{
-      "type":"string",
-      "title":"Name"
+  'type':'object',
+  'properties':{
+    'name':{
+      'type':'string',
+      'title':'Name'
     },
-    "configs":{
-      "type": 'object',
-      "properties": {
-        "title": { type: 'string', title: 'Label' },
-        "default": { type: 'string', title: 'Default Value' },
-        "validate":{ type: 'array',title:"Validate",items:{
+    'configs':{
+      'type': 'object',
+      'properties': {
+        'title': { type: 'string', title: 'Label' },
+        'default': { type: 'string', title: 'Default Value' },
+        'validate':{ type: 'array',title:'Validate',items:{
           type:'object',
           properties:{
             clause:{type:'string',title:'Clause'},
@@ -24,23 +24,23 @@ const schema = deepmerge(common,{
         }}
       }
     },
-    "ui":{
-      "type":"object",
-      "properties":{
-        "ui:widget": {
-          "type": "string",
-          "title": 'type',
-          "enum": [
-            "default",
-            "updown",
-            "range",
-            "hidden"
+    'ui':{
+      'type':'object',
+      'properties':{
+        'ui:widget': {
+          'type': 'string',
+          'title': 'type',
+          'enum': [
+            'default',
+            'updown',
+            'range',
+            'hidden'
           ],
-          "enumNames": [
-            "Text box",
-            "Updown",
-            "Range",
-            "Hidden"
+          'enumNames': [
+            'Text box',
+            'Updown',
+            'Range',
+            'Hidden'
           ]
         }
       }
@@ -71,6 +71,6 @@ class Editor extends React.Component {
 }
 
 export default {
-  filter:({configs})=>(configs.type=="number" || configs.type=="integer"),
+  filter:({configs})=>(configs.type=='number' || configs.type=='integer'),
   component: Editor
-}
+};

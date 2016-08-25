@@ -3,28 +3,28 @@ import Form from 'react-jsonschema-form';
 
 
 const schema = {
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string"
+  'type': 'object',
+  'properties': {
+    'name': {
+      'type': 'string'
     },
-    "configs": {
-      "type": "string"
+    'configs': {
+      'type': 'string'
     },
-    "ui": {
-      "type": "string"
+    'ui': {
+      'type': 'string'
     }
   }
 };
 
 const uiSchema = {
-  "configs": {
-    "ui:widget": "textarea"
+  'configs': {
+    'ui:widget': 'textarea'
   },
-  "ui": {
-    "ui:widget": "textarea"
+  'ui': {
+    'ui:widget': 'textarea'
   }
-}
+};
 
 const Editor = React.createClass({
   onChange(e){
@@ -48,7 +48,7 @@ const Editor = React.createClass({
       name: this.props.node.name,
       configs: JSON.stringify(this.props.node.configs, null, '  '),
       ui:  JSON.stringify(this.props.node.ui, null, '  ')
-    }
+    };
     console.log('==========!');
     console.log(formData);
     console.log(this.props.node);
@@ -57,11 +57,11 @@ const Editor = React.createClass({
       this.props,
       {schema,uiSchema,formData,onChange:this.onChange}
     );
-    return <Form {...props} />
+    return <Form {...props} />;
   }
 });
 
 export default {
   filter: ()=>true,
   component: Editor
-}
+};

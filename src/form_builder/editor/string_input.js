@@ -4,18 +4,18 @@ import Form from 'react-jsonschema-form';
 import common from './_common';
 import deepmerge from 'deepmerge';
 const schema = deepmerge(common,{
-  "type":"object",
-  "properties":{
-    "name":{
-      "type":"string",
-      "title":"Name"
+  'type':'object',
+  'properties':{
+    'name':{
+      'type':'string',
+      'title':'Name'
     },
-    "configs":{
-      "type": 'object',
-      "properties": {
-        "title": { type: 'string', title: 'Label' },
-        "default": { type: 'string', title: 'Default Value' },
-        "validate":{ type: 'array',title:"Validate",items:{
+    'configs':{
+      'type': 'object',
+      'properties': {
+        'title': { type: 'string', title: 'Label' },
+        'default': { type: 'string', title: 'Default Value' },
+        'validate':{ type: 'array',title:'Validate',items:{
           type:'object',
           properties:{
             clause:{type:'string',title:'Clause'},
@@ -24,35 +24,35 @@ const schema = deepmerge(common,{
         }}
       }
     },
-    "ui":{
-      "type":"object",
-      "properties":{
-        "classNames":{
-          "type":"string"
+    'ui':{
+      'type':'object',
+      'properties':{
+        'classNames':{
+          'type':'string'
         },
-        "ui:widget": {
-          "type": "string",
-          "title": 'widget',
-          "enum": [
-            "default",
-            "textarea",
-            "date",
-            "dateTime",
-            "file",
-            "wysiwyg",
-            "password",
-            "color",
-            "hidden"
-          ],"enumNames":[
-            "Text box",
-            "Textarea",
-            "Date",
-            "Datetime",
-            "File",
-            "Wysiwyg",
-            "Password",
-            "Color",
-            "Hidden"
+        'ui:widget': {
+          'type': 'string',
+          'title': 'widget',
+          'enum': [
+            'default',
+            'textarea',
+            'date',
+            'dateTime',
+            'file',
+            'wysiwyg',
+            'password',
+            'color',
+            'hidden'
+          ],'enumNames':[
+            'Text box',
+            'Textarea',
+            'Date',
+            'Datetime',
+            'File',
+            'Wysiwyg',
+            'Password',
+            'Color',
+            'Hidden'
           ]
         }
       }
@@ -82,6 +82,6 @@ class Editor extends React.Component {
 }
 
 export default {
-  filter:({configs})=>(configs.type=="string" && !configs.enum),
+  filter:({configs})=>(configs.type=='string' && !configs.enum),
   component: Editor
-}
+};

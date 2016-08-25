@@ -11,6 +11,6 @@ export default class Label extends React.Component {
       <h2 className="label-array">
         { title }
       </h2>
-    )
+    );
   }
 } 

@@ -2,7 +2,20 @@ import React from 'react';
 import Form from 'react-jsonschema-form';
 import deepmerge from 'deepmerge';
 import common from './_common.js';
-const schema = common;
+const schema = deepmerge(common,{
+  'properties': {
+    'ui':{
+      'properties':{
+        'ui:widget':{
+          type:'string',
+          enum:['default','select','radio','hidden']
+        }
+      }
+    }
+  }
+});
+
+
 
 
 class Editor extends React.Component {
@@ -27,6 +40,6 @@ class Editor extends React.Component {
 }
 
 export default {
-  filter: ({configs})=>(configs.type=='object' || configs.type=='array'),
+  filter: ({configs})=>(configs.type=='boolean'),
   component: Editor
 };
