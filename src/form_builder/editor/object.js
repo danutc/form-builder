@@ -54,6 +54,8 @@ class Editor extends React.Component {
     this.state.schema.properties.configs.properties.required.items.enum = props.node.children.map((a) => a.name);
   }
   onChange(e){
+    console.log('^^^^^^^^^^^^^^^^^^^^');
+    console.log(e.formData);
     this.props.onChange(e,e.formData);
   }
 

@@ -89,17 +89,24 @@ function inline_validation_extension(FormComponent){
   class Extended extends React.Component{
     constructor(props) {
       super(props);
-      //this.state={validate:  build_validator(props.schema)};
-      //console.log('--------------------');
+      const validate_fun = build_validator(props.schema);
+      this.state = {
+        validate_fun:validate_fun,
+        schema:props.schema
+      };
+    }
+    componentWillReceiveProps(props){
+      this.setState({
+        validate_fun: build_validator(props.schema),
+        schema:props.schema
+      });
+    }
+    onValidate(formData, error){
+      console.log(['asdfasdfasdfas',this.state.schema]);
+      return this.state.validate_fun(formData,error);
     }
     render(){
-      let _validate = build_validator(this.props.schema);
-      let validate = function(d,e){
-        console.log(['validate',d,e]);
-        return _validate(d,e);
-      };
-      const props = Object.assign({},this.props);
-      props.validate = validate;
+      const props = {...this.props, validate:this.onValidate.bind(this)};
       return (<FormComponent {
           ...props
       }>{this.props.children}</FormComponent>);

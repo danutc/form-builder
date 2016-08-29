@@ -45,8 +45,6 @@ class Editor2 extends React.Component {
       {...this.props},
       {node}
     );
-    console.log('====================');
-    console.log(this.props);
     return (<AvailableEditor {...props}/>);
   }
 }

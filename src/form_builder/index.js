@@ -183,7 +183,8 @@ const App = React.createClass({
   },
   onNodeUpdate(e, data) {
     let active = this.state.active;
-
+    console.log('))))))))))))))))))))');
+    console.log(data);
     for(var i in data){
       if(typeof(data[i])=='object' && Array.isArray(data[i])){
         active[i] = Object.assign(active[i],data[i]);
@@ -191,7 +192,7 @@ const App = React.createClass({
         active[i] = data[i];
       }
     }
-    console.log(active);
+    console.log(this.state.tree);
     this.setState({
       active
     });
