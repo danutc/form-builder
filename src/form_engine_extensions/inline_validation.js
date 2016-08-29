@@ -54,14 +54,9 @@ function build_validator(schema){
       return function(formData, errors){
         if(formData){
           for(var i in formData){
-            if(i==1){
-              i=i;console.log('1-');
-            }
-
             if(i < itemsValidator.length){
               errors[i] = itemsValidator[i](formData[i],errors[i]);
             }else{
-
               errors[i] = additionalItemsValidator(formData[i],errors[i]);
             }
           }
@@ -74,6 +69,10 @@ function build_validator(schema){
       const itemsValidator = build_validator(schema.items);
       return function(formData, errors){
         if(formData) {
+          if(!Array.isArray(formData)){
+            errors.addError('is not of a type(s) array');
+            return errors;
+          }
           formData.forEach(function(data, i){
             errors[i] = itemsValidator(data,errors[i]);
           });
