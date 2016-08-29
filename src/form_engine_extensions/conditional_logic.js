@@ -22,7 +22,7 @@ function _compile_contition(schema){
           if(!condition_fun[i][0].call(formData)){
             const properties_list = condition_fun[i][1];
             for(var j in properties_list){
-              ui_hidden_properties[properties_list[j]]={'ui:widget':'hidden'};
+              ui_hidden_properties[properties_list[j]]={'ui:widget':'hidden','ui:disabled':true};
             }
           }
         }
@@ -128,7 +128,6 @@ function conditional_logic_extension(FormComponent){
     onChange(e){
       const new_uiSchema = deepmerge(deepcopy(this.props.uiSchema), this.state.condition_fun(e.formData));
       const newFormData = this.state.datafilter_fun(e.formData);
-      console.log(['on change ====================',e.formData]);
       this.setState({uiSchema:new_uiSchema,formData:e.formData});
       this.props.onChange(Object.assign({},e, {formData:newFormData}));
     }

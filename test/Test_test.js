@@ -7,7 +7,7 @@ import rewire from 'rewire';
 import deepcopy from 'deepcopy';
 import deepmerge from 'deepmerge';
 
-/*
+
 describe('Array Validation', () => {
   const inline_validation = rewire('../src/form_engine_extensions/inline_validation.js');
   const form_engine_validation = rewire('../node_modules/react-jsonschema-form/lib/validate.js');
@@ -31,7 +31,7 @@ describe('Array Validation', () => {
   });
 });
 
-*/
+//*/
 /*
 describe('Conditional Logic', () => {
   const conditional_logic = rewire('../src/form_engine_extensions/conditional_logic.js');
@@ -244,6 +244,7 @@ describe('Conditional Logic', () => {
   });
 });
 */
+/*
 describe('Conditional Data filter', () => {
   const conditional_logic = rewire('../src/form_engine_extensions/conditional_logic.js');
   const compile_datafilter = conditional_logic.__get__('compile_datafilter');
@@ -314,5 +315,5 @@ describe('Conditional Data filter', () => {
       expect(data.foo.bar).eq('data');
     })(deepcopy(schema));
   });
-
+*/
 });

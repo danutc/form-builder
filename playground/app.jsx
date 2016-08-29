@@ -6,7 +6,7 @@ import FormBuilder from '../src/form_builder/index';
 import custom from 'form-custom-components';
 import preset from './preset';
 
-/*
+
 const formSchema = {
                     schema:{
                       "title": "A registration form",
@@ -56,7 +56,8 @@ const formSchema = {
                       }
                     }
                   }
-*/
+//*/
+/*
 const formSchema = {
   schema:{
     "type": "object",
@@ -99,7 +100,7 @@ const formSchema = {
   },
   uiSchema:{}
 }
-
+//*/
 class App extends Component {
   constructor(props) {
     super(props);

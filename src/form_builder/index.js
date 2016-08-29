@@ -49,13 +49,12 @@ const App = React.createClass({
       return presetLoader;
     }
     const preset = this.props.preset;
-    console.log('====================');
-
-
-    console.log(preset);
     const {formName,formSchema:{schema,uiSchema}} = this.props;
     let tree = injectUiSchema( decompile(schema), uiSchema);
     tree.name = formName;
+
+    console.log('state');
+    console.log((()=>this.state).bind(this));
 
     return {
       active: null,
@@ -83,16 +82,20 @@ const App = React.createClass({
           }) }
       >
         {node.name + (node.configs && node.configs.type ? ' - [' + node.configs.type + ']' : '') }
-        {(node!=this.state.tree)?
-         (<a
-              href="#"
-              style={{flow:'right'}}
-              onClick={(e)=>{this.onDeleteItem(e,node);e.stopPropagation();}}>
+
+      <a
+        href="#"
+        style={{flow:'right'}}
+        onClick={(e)=>{
+          (node!=this.state.tree)?
+            this.onDeleteItem(e,node)
+            :
+            this.onClearTree(e);
+          e.stopPropagation();}
+        }>
         ✘
-         </a>)
-         :
-         null
-        }
+      </a>
+
       </span>
 
     );
@@ -124,6 +127,11 @@ const App = React.createClass({
         active: undefined,
         tree: deleteNode(this.state.tree, active)
       });
+    }
+  },
+  onClearTree(){
+    if(confirm('Form "'+this.state.tree.name+'" will be clear!')){
+      this.setState({active:undefined,tree:{configs:{type:'object'},children:[],name:this.state.tree.name}});
     }
   },
   onNewItem(e, item_type) {
@@ -238,7 +246,7 @@ const App = React.createClass({
                   liveValidate={true}
                   onSubmit = { (e)=>(this.props.onSubmit({name:this.state.tree.name,schema,uiSchema})) }
               >
-                {(this.state.active?<button hidden></button>:null)}
+                {(this.state.active||true?<button hidden></button>:null)}
               </Form>
               <hr />
               <textarea
