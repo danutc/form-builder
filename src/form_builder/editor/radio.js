@@ -16,12 +16,14 @@ const schema = deepmerge(common,{
         },
         'enum': {
           'type': 'array',
+          'title':'Value',
           'items': {
             'type': 'string'
           }
         },
         'enumNames': {
           'type': 'array',
+          'title':'Label',
           'items': {
             'type': 'string'
           }
