@@ -212,7 +212,7 @@ const App = React.createClass({
     );
 
     return (
-      <div className="app col-md-12">
+      <div className="app">
         <div className="tree col-md-3" onContextMenu={this.onContextMenu}>
           <h3>Form Fields</h3>
           <TreeWithRightClick
