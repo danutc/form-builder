@@ -26,7 +26,12 @@ const schema = {
           'type':'string'
         },
         'ui:widget':{
+          'title':'Widget',
           'type':'string'
+        },
+        'ui:readonly':{
+          'title':'Read Only',
+          'type':'boolean'
         }
       }
     }
