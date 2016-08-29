@@ -13,9 +13,11 @@
     "react": "^15.0.0"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "classname": "0.0.0",
     "deepcopy": "^0.6.3",
     "deepmerge": "^0.2.10",
+    "file-loader": "^0.9.0",
     "moment": "^2.14.1",
     "react-cardstack": "^0.1.1",
     "react-codemirror": "^0.2.6",
@@ -29,7 +31,9 @@
     "react-motion": "^0.4.4",
     "react-portal-tooltip": "^1.1.4",
     "react-treebeard": "^1.1.2",
-    "react-ui-tree": "^2.5.0"
+    "react-ui-tree": "^2.5.0",
+    "svg-loader": "0.0.2",
+    "url-loader": "^0.5.7"
   },
   "main": "lib/index.js",
   "files": [
