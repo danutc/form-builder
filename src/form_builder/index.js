@@ -21,7 +21,7 @@ import extensions from '../form_engine_extensions';
 
 
 // Add support for inline validation
-const Form = extensions.inline_validation(_Form);
+const Form = extensions.conditional_logic(extensions.inline_validation(_Form));
 
 const TreeWithRightClick = ContextMenuLayer(
   'tree',

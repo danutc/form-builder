@@ -3,27 +3,11 @@ import { render } from 'react-dom';
 
 
 import FormBuilder from '../src/form_builder/index';
-import custom from '../src/custom';
+import custom from 'form-custom-components';
 import preset from './preset';
 
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-  onSubmit(formSchema){
-    console.log(formSchema);
-  }
-  render(){
-    console.log('====================');
-    console.log(custom);
-    return (<FormBuilder
-                preset={preset}
-                widgets={custom.widgets}
-                fields={custom.fields}
-                onSubmit={this.onSubmit}
-                formName={"developing"}
-                formSchema={{
+/*
+const formSchema = {
                     schema:{
                       "title": "A registration form",
                       "description": "A simple form example.",
@@ -71,9 +55,68 @@ class App extends Component {
                         "ui:widget": "alt-datetime"
                       }
                     }
-                  }}
+                  }
+*/
+const formSchema = {
+  schema:{
+    "type": "object",
+    "conditional": [
+      {
+        "clause": "this.switch==\"case1\"",
+        "properties": [
+          "case_1",
+          "other"
+        ]
+      },
+      {
+        "clause": "this.switch==\"case2\"",
+        "properties": [
+          "case_2"
+        ]
+      }
+    ],
+    "properties": {
+      "switch": {
+        "type": "string",
+        "enum": [
+          "case1",
+          "case2"
+        ]
+      },
+      "case_1": {
+        "type": "string",
+        "default": "case1"
+      },
+      "case_2": {
+        "type": "string",
+        "default": "case2"
+      },
+      "other": {
+        "type": "string",
+        "title": "Input"
+      }
+    }
+  },
+  uiSchema:{}
+}
 
-
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+  onSubmit(formSchema){
+    console.log(formSchema);
+  }
+  render(){
+    console.log('====================');
+    console.log(custom);
+    return (<FormBuilder
+                preset={preset}
+                widgets={custom.widgets}
+                fields={custom.fields}
+                onSubmit={this.onSubmit}
+                formName={"developing"}
+                formSchema={formSchema}
             />);
   }
 }
