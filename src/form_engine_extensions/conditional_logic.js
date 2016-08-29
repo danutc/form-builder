@@ -121,23 +121,26 @@ function conditional_logic_extension(FormComponent){
         condition_fun:condition_fun,
         datafilter_fun:datafilter_fun,
         uiSchema:deepmerge(deepcopy(this.props.uiSchema), condition_fun(this.props.formData)),
-        formData:this.props.formData
+        formData:this.props.formData,
+        schema:props.schema
       };
     }
     onChange(e){
       const new_uiSchema = deepmerge(deepcopy(this.props.uiSchema), this.state.condition_fun(e.formData));
       const newFormData = this.state.datafilter_fun(e.formData);
+      console.log(['on change ====================',e.formData]);
       this.setState({uiSchema:new_uiSchema,formData:e.formData});
       this.props.onChange(Object.assign({},e, {formData:newFormData}));
     }
     componentWillReceiveProps(props){
       const condition_fun = compile_contition(props.schema);
       const datafilter_fun = compile_datafilter(props.schema);
-
       this.setState({
         condition_fun:condition_fun,
         datafilter_fun:datafilter_fun,
-        uiSchema:deepmerge(deepcopy(props.uiSchema), condition_fun(props.formData))
+        uiSchema:deepmerge(deepcopy(props.uiSchema), condition_fun(props.formData)),
+        schema:props.schema,
+        formData: props.schema==this.state.schema?this.state.formData:props.formData
       });
     }
     render(){

@@ -15,7 +15,7 @@ const schema = deepmerge(deepcopy(common),{
             title:'Condition',
             properties:{
               clause:{
-                title:'Tester',
+                title:'Rule',
                 type:'string'
               },
               properties:{
@@ -33,15 +33,37 @@ const schema = deepmerge(deepcopy(common),{
 });
 
 class Editor extends React.Component {
+  constructor(props){
+    super(props);
+    let _schema = deepcopy(schema);
+    _schema.properties.configs.properties.required = {
+      type:'array',
+      uniqueItems:true,
+      items:{
+        type:'string',
+        enum:props.node.children.map((c)=>c.name)
+      }
+    };
+    console.log(JSON.stringify(_schema));
+    this.state = {
+      schema:_schema,
+      uiSchema:{configs:{required:{'ui:widget':'checkboxes'},'ui:order':['type','required','validate','conditional']}}
+    };
+  }
+  componentWillReceiveProps(props){
+    this.state.schema.properties.configs.properties.required.items.enum = props.node.children.map((a) => a.name);
+  }
   onChange(e){
     this.props.onChange(e,e.formData);
   }
+
   render(){
     const node = this.props.node;
     const props = Object.assign(
       {},
       this.props, {
-        schema:schema,
+        schema:this.state.schema,
+        uiSchema:this.state.uiSchema,
         formData:node,
         onChange:this.onChange.bind(this)
       }
