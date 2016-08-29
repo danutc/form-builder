@@ -18,8 +18,6 @@ import deepcopy from 'deepcopy';
 import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode, getParent} from './utils.js';
 
 import extensions from '../form_engine_extensions';
-
-
 // Add support for inline validation
 const Form = extensions.conditional_logic(extensions.inline_validation(_Form));
 
@@ -53,8 +51,11 @@ const App = React.createClass({
 
 
     console.log(preset);
-    const {formName,formSchema:{schema,uiSchema}} = this.props;
-    let tree = injectUiSchema( decompile(schema), uiSchema);
+    const {formName, formSchema: {schema, uiSchema}} = this.props;
+    let tree = injectUiSchema(decompile(schema), uiSchema);
+
+    console.log('treee ======');
+    console.log(tree);
     tree.name = formName;
 
     return {
@@ -76,18 +77,18 @@ const App = React.createClass({
        );*/
     return (
       <span
-          onClick={this.onClickNode.bind(null, node) }
-          onContextMenu={this.onRightClickNode.bind(null, node) }
-          className={cx('node', {
-            'is-active': node === this.state.active
-          }) }
-      >
+        onClick={this.onClickNode.bind(null, node) }
+        onContextMenu={this.onRightClickNode.bind(null, node) }
+        className={cx('node', {
+          'is-active': node === this.state.active
+        }) }
+        >
         {node.name + (node.configs && node.configs.type ? ' - [' + node.configs.type + ']' : '') }
-        {(node!=this.state.tree)?
-         (<a
-              href="#"
-              style={{flow:'right'}}
-              onClick={(e)=>{this.onDeleteItem(e,node);e.stopPropagation();}}>
+        {(node != this.state.tree) ?
+          (<a
+            href="#"
+            style={{ flow: 'right' }}
+            onClick={(e) => { this.onDeleteItem(e, node); e.stopPropagation(); } }>
         ✘
          </a>)
          :
@@ -196,6 +197,13 @@ const App = React.createClass({
       this.setState({ formData: e.formData });
     }
   },
+  _clearForm() {
+    this.setState({
+      active: undefined,
+      tree: {configs: {}},
+      formData: {}
+    });
+  },
   render() {
     const schema = compile(this.state.active || this.state.tree);
     const uiSchema = deepMerge(
@@ -204,7 +212,7 @@ const App = React.createClass({
     );
 
     return (
-      <div className="app">
+      <div className="app col-md-12">
         <div className="tree col-md-3" onContextMenu={this.onContextMenu}>
           <h3>Form Fields</h3>
           <TreeWithRightClick
@@ -214,6 +222,8 @@ const App = React.createClass({
               isNodeCollapsed={this.isNodeCollapsed}
               renderNode={this.renderNode}
           />
+          <br/>
+          <button className="btn btn-danger clear-form" onClick={this._clearForm}>Clear Form </button>
         </div>
         {
           (this.state.editing && false) ?
@@ -225,7 +235,7 @@ const App = React.createClass({
           :
           (null)
         }
-            <div className="inspector col-md-7">
+            <div className="inspector col-md-6">
               <h3>Form Preview</h3>
 
               <Form
@@ -272,7 +282,7 @@ const App = React.createClass({
 
             {
               this.state.active ? (
-                <div className="form-editor col-md-2">
+                <div className="form-editor col-md-3">
                   <h3>Widget & Field Configuration</h3>
                   <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} getActiveNode={() => this.state.active}/>
                   <hr />

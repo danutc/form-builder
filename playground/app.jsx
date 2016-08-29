@@ -6,6 +6,9 @@ import FormBuilder from '../src/form_builder/index';
 import custom from 'form-custom-components';
 import preset from './preset';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-ui-tree/dist/react-ui-tree.css';
+import './main.css';
 /*
 const formSchema = {
                     schema:{

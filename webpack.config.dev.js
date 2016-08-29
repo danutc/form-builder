@@ -35,10 +35,19 @@ module.exports = {
           path.join(__dirname, "playground"),
           path.join(__dirname, "node_modules"),
         ],
+      },
+      { test: /\.svg$/, loader: 'svg-loader?pngScale=2' },
+      {
+        test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+        loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+      }, 
+      {
+        test: /\.less$/,
+        loader: "style!css!less"
       }
     ]
   },
   resolve: {
-    extensions: ['','.js','.jsx']
+    extensions: ['', '.js', '.jsx']
   }
 };
