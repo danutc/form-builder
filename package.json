@@ -1,6 +1,6 @@
 {
   "name": "form-builder",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node devServer.js",
@@ -31,9 +31,7 @@
     "react-motion": "^0.4.4",
     "react-portal-tooltip": "^1.1.4",
     "react-treebeard": "^1.1.2",
-    "react-ui-tree": "^2.5.0",
-    "svg-loader": "0.0.2",
-    "url-loader": "^0.5.7"
+    "react-ui-tree": "^2.5.0"
   },
   "main": "lib/index.js",
   "files": [
@@ -76,7 +74,9 @@
     "rimraf": "^2.4.4",
     "sinon": "^1.17.2",
     "style-loader": "^0.13.1",
+    "svg-loader": "0.0.2",
     "toctoc": "^0.2.3",
+    "url-loader": "^0.5.7",
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2"

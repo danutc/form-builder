@@ -44,7 +44,6 @@ class TreeMenu extends React.Component {
 
 const MyContextMenu = React.createClass({
   getInitialState() {
-    console.log('=========init contextmenu===========');
     return {};
   },
   render() {
@@ -64,10 +63,6 @@ const MyContextMenu = React.createClass({
     widgets.map((w, idx) => {
       tree.children.push({name: w[0], children: w[1] || []});
     });
-
-    console.log('tree');
-    console.log(tree);
-
     return (
             <ContextMenu identifier="tree" currentItem={this.currentItem}>
                 <TreeMenu data={tree} onClick={this.handleClick}/>
@@ -78,9 +73,6 @@ const MyContextMenu = React.createClass({
         );
   },
   handleClick(e, data) {
-    console.log('item selected');
-
-    console.log(data.name);
     if (data.name == 'delete') {
       this.props.onDeleteItem(e);
     } else {

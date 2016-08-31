@@ -13,13 +13,16 @@ import ToolTip from 'react-portal-tooltip';
 
 import Editor from './editor';
 
+import JsonEditor from './json_editor.js';
+
 import deepcopy from 'deepcopy';
 
 import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteNode, getParent} from './utils.js';
 
 import extensions from '../form_engine_extensions';
 // Add support for inline validation
-const Form = extensions.conditional_logic(extensions.inline_validation(_Form));
+//const Form = extensions.conditional_logic(extensions.inline_validation(_Form));
+const Form = _Form;
 
 const TreeWithRightClick = ContextMenuLayer(
   'tree',
@@ -46,21 +49,18 @@ const App = React.createClass({
       }
       return presetLoader;
     }
+
     const preset = this.props.preset;
-    console.log('====================');
-
-
-    console.log(preset);
     const {formName, formSchema: {schema, uiSchema}} = this.props;
     let tree = injectUiSchema(decompile(schema), uiSchema);
 
-    console.log('treee ======');
-    console.log(tree);
     tree.name = formName;
 
     return {
       active: null,
       tree: tree,
+      schema,
+      uiSchema,
       preset: buildPresetLoader(this.props.preset),
       clicktime: (new Date()).getTime(),
       formData: {}
@@ -119,7 +119,6 @@ const App = React.createClass({
     if(!confirm('Node "'+active.name+'" will be deleted!')){
       return;
     }
-    console.log(this.state.tree, active);
     if (active) {
       this.setState({
         active: undefined,
@@ -129,10 +128,7 @@ const App = React.createClass({
   },
   onNewItem(e, item_type) {
     let active = this.state['active'];
-    console.log(active.name);
     const preset = this.state.preset;
-    console.log(item_type);
-    console.log(preset);
     function addChildren(parent, item_type, after_child) {
       function genNewName(parent, item_type) {
         let new_name = item_type;
@@ -167,7 +163,6 @@ const App = React.createClass({
       }
     } else {
       let parent = getParent(this.state.tree, active);
-      console.log(parent);
       this.setState({
         active: addChildren(parent, item_type, active)
       });
@@ -176,8 +171,6 @@ const App = React.createClass({
   },
   onNodeUpdate(e, data) {
     let active = this.state.active;
-    console.log('))))))))))))))))))))');
-    console.log(data);
     for(var i in data){
       if(typeof(data[i])=='object' && Array.isArray(data[i])){
         active[i] = Object.assign(active[i],data[i]);
@@ -185,10 +178,10 @@ const App = React.createClass({
         active[i] = data[i];
       }
     }
-    console.log(this.state.tree);
     this.setState({
       active
     });
+    this.updateTree(this.state.tree);
   },
   getActiveNode() {
     return this.state.active;
@@ -206,10 +199,10 @@ const App = React.createClass({
     });
   },
   render() {
-    const schema = compile(this.state.active || this.state.tree);
+    const schema = this.state.active && compile(this.state.active) || this.state.schema;
     const uiSchema = deepMerge(
       getUiOrder(schema),
-      extractUiSchema(this.state.active || this.state.tree)
+      this.state.active && extractUiSchema(this.state.active) || this.state.uiSchema
     );
 
     return (
@@ -252,28 +245,27 @@ const App = React.createClass({
                 {(this.state.active?<button hidden></button>:null)}
               </Form>
               <hr />
-              <textarea
-                  ref="schemaRef"
-                  value={JSON.stringify(compile(this.state.tree), null, '  ') }
-                  onChange={this.updateTree}>
-              </textarea>
-              <textarea
-                  ref="uiSchemaRef"
-                  value={JSON.stringify(extractUiSchema(this.state.tree), null, '  ') }
-                  onChange={this.updateTree}>
-              </textarea>
+              <div className="col-md-6">
+                <JsonEditor
+                    code={JSON.stringify(this.state.schema, null, '  ') }
+                    onChange={this.updateSchema} />
+              </div>
+              <div className="col-md-6">
+                <JsonEditor
+                  code={JSON.stringify(this.state.uiSchema, null, '  ') }
+                  onChange={this.updateUiSchema} />
+             </div>
+             <div className="col-md-6">
+               <JsonEditor
+                 code={JSON.stringify(this.state.formData, null, '  ') } />
+             </div>
 
-              <textarea
-                  ref="dataRef"
-                  value={JSON.stringify(this.state.formData, null, '  ') }>
-              </textarea>
+             <div className="col-md-6">
+              <JsonEditor
+                   code={JSON.stringify(this.state.tree, null, '  ') }
+                   onChange={this.updateTree} />
+             </div>
 
-              <hr />
-              <textarea
-                  ref="treeRef"
-                  value={JSON.stringify(this.state.tree, null, '  ') }
-                  onChange={this.updateSchema}>
-              </textarea>
               <RightClickMenu
                   onDeleteItem={this.onDeleteItem}
                   onNewItem={this.onNewItem}
@@ -295,27 +287,37 @@ const App = React.createClass({
   },
 
   handleChange(tree) {
+    const uiSchema = extractUiSchema(tree);
+    const schema = compile(tree);
     this.setState({
-      tree: tree
+      tree: tree,
+      schema,
+      uiSchema
     });
     this.forceUpdate();
   },
-  updateSchema() {
-    const {treeRef} = this.refs;
-    this.setState({ tree: JSON.parse(treeRef.value) });
+  updateSchema(schema) {
+    const tree = injectUiSchema(decompile(schema),this.state.uiSchame);
+    tree.name = this.name || this.state.tree.name;
+    this.setState({ tree,schema});
+    this.forceUpdate();
   },
-  updateTree() {
+  updateUiSchema(uiSchema){
+    const tree = injectUiSchema(this.state.tree, uiSchema);
+    this.setState({tree,uiSchema});
+    this.forceUpdate();
+  },
+  updateTree(tree) {
     //var tree = this.state.tree;
-    const {schemaRef, uiSchemaRef} = this.refs;
-    let tree = decompile(JSON.parse(schemaRef.value));
-    tree = injectUiSchema(
-      tree,
-      JSON.parse(uiSchemaRef.value)
-    );
+    const uiSchema = extractUiSchema(tree);
+    const schema = compile(tree);
     tree.name = this.state.tree.name || 'root';
     this.setState({
-      tree: tree
+      tree,
+      schema,
+      uiSchema
     });
+    this.forceUpdate();
   }
 });
 
