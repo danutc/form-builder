@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Editor,
   EditorState,
@@ -7,9 +8,40 @@ import {
   Immutable
 } from 'draft-js';
 
+const styles = {
+  root: {
+    fontFamily: '\'Georgia\', serif',
+    fontSize: 14,
+    padding: 20,
+    width: 600,
+  },
+  editor: {
+    borderTop: '1px solid red',
+    cursor: 'text',
+    fontSize: 16,
+    marginTop: 20,
+    minHeight: 400,
+    paddingTop: 20,
+  },
+  controls: {
+    fontFamily: '\'Helvetica\', sans-serif',
+    fontSize: 14,
+    marginBottom: 10,
+    userSelect: 'none',
+  },
+  styleButton: {
+    color: '#999',
+    cursor: 'pointer',
+    marginRight: 16,
+    padding: '2px 0',
+  },
+}; 
+
 class Wysiwyg extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log('====== LOADING Wysiwyg =======');
 
     this.state = {
       editorState: EditorState.createEmpty()
@@ -69,16 +101,18 @@ class Wysiwyg extends React.Component {
     }
 
     return (
-      <div className="RichEditor-root">
+      <div className="RichEditor-root" style={styles.root}>
         <BlockStyleControls
+          style={styles.controls}
           editorState={editorState}
           onToggle={this.toggleBlockType}
           />
         <InlineStyleControls
+          style={styles.controls}
           editorState={editorState}
           onToggle={this.toggleInlineStyle}
           />
-        <div className={className} onClick={this.focus}>
+        <div className={className} onClick={this.focus} style={styles.editor}>
           <Editor
             blockStyleFn={getBlockStyle}
             customStyleMap={styleMap}
@@ -107,8 +141,8 @@ const styleMap = {
 
 function getBlockStyle(block) {
   switch (block.getType()) {
-  case 'blockquote': return 'RichEditor-blockquote';
-  default: return null;
+    case 'blockquote': return 'RichEditor-blockquote';
+    default: return null;
   }
 }
 

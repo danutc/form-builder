@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-
 import FormBuilder from '../src/form_builder/index';
-import custom from 'form-custom-components';
+import FormFactory from 'form-components/dist-component/client';
 import preset from './preset';
+
+let custom = {
+  fields: {
+    paymentStatus: FormFactory.createBuilder('cb-payment-status')
+  },
+  widgets: {
+   dateTime: FormFactory.createBuilder('cb-datetime'),
+   label: FormFactory.createBuilder('cb-label'),
+   wysiwyg: FormFactory.createBuilder('cb-wysiwyg', {
+     onChange: (value) => console.log(value)
+   })
+  }
+}
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-ui-tree/dist/react-ui-tree.css';
-import './main.css';
+import './main.css'; 
 /*
 const formSchema = {
                     schema:{
@@ -113,6 +125,7 @@ class App extends Component {
   render(){
     console.log('====================');
     console.log(custom);
+    console.log('end of custoemr');
     return (<FormBuilder
                 preset={preset}
                 widgets={custom.widgets}
