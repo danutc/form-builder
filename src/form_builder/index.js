@@ -247,21 +247,25 @@ const App = React.createClass({
               <hr />
               <div className="col-md-6">
                 <JsonEditor
+                    title={"schema"}
                     code={JSON.stringify(this.state.schema, null, '  ') }
                     onChange={this.updateSchema} />
               </div>
               <div className="col-md-6">
                 <JsonEditor
+                  title={"uiSchema"}
                   code={JSON.stringify(this.state.uiSchema, null, '  ') }
                   onChange={this.updateUiSchema} />
              </div>
              <div className="col-md-6">
                <JsonEditor
+                 title={"formData"}
                  code={JSON.stringify(this.state.formData, null, '  ') } />
              </div>
 
              <div className="col-md-6">
               <JsonEditor
+                   title={"tree"}
                    code={JSON.stringify(this.state.tree, null, '  ') }
                    onChange={this.updateTree} />
              </div>

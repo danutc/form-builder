@@ -7,8 +7,10 @@ import BooleanInputEditor from './editor/boolean_input';
 import NumberInputEditor from './editor/number_input';
 import StringInputEditor from './editor/string_input';
 import DefaultEditor from './editor/default';
+import ConditionalObject from './editor/conditional_object.js';
 
 const editors = [
+  ConditionalObject,
   RadioEditor,
   ObjectEditor,
   StringInputEditor,

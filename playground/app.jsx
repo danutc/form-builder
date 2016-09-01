@@ -61,46 +61,8 @@ const formSchema = {
                   }
 */
 const formSchema = {
-  schema:{
-    "type": "object",
-    "conditional": [
-      {
-        "clause": "this.switch==\"case1\"",
-        "properties": [
-          "case_1",
-          "other"
-        ]
-      },
-      {
-        "clause": "this.switch==\"case2\"",
-        "properties": [
-          "case_2"
-        ]
-      }
-    ],
-    "properties": {
-      "switch": {
-        "type": "string",
-        "enum": [
-          "case1",
-          "case2"
-        ]
-      },
-      "case_1": {
-        "type": "string",
-        "default": "case1"
-      },
-      "case_2": {
-        "type": "string",
-        "default": "case2"
-      },
-      "other": {
-        "type": "string",
-        "title": "Input"
-      }
-    }
-  },
-  uiSchema:{}
+  schema:{"type": "object","conditionFun": "function myCondition({schema, uiSchema, formData}) {\n  if (formData) {\n    function filterProps(props) {\n      let new_properties = {};\n      let new_data = {};\n      props.forEach(function(i) {\n        new_properties[i] = schema.properties[i];\n        new_data = formData[i];\n      });\n      let new_schema = Object.assign({}, schema);\n      new_schema.properties = new_properties;\n      return {\n        schema: new_schema,\n        uiSchema: uiSchema,\n        formData: formData\n      };\n    }\n    if (formData.switch == 'case1') {\n      let r = filterProps(['switch', 'case1']);\n      r.uiSchema.case1 = {\n        'ui:readonly': false\n      };\n      return r;\n    } else if (formData.switch == 'case2') {\n      let r = filterProps(['switch', 'case1', 'case2']);\n      r.uiSchema.case1 = {\n        'ui:readonly': true\n      };\n      return r;\n    } else {\n      return filterProps(['switch']);\n    }\n  }\n}", "properties": { "switch": { "type": "string", "enum": [ "case1", "case2" ] }, "case1": { "type": "string", "default": "case 1" }, "case2": { "type": "string", "default": "case 2" } } },
+  uiSchema:{  "ui:field": "fullConditional"}
 }
 
 class App extends Component {
