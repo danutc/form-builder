@@ -79,7 +79,7 @@ const MyContextMenu = React.createClass({
         let item = menu.children[categoryIndex].children[itemIndex];
         let node = decompile(item.schema);
         if(item.uiSchema){
-          node = injectUiSchema(node, item);
+          node = injectUiSchema(node, item.uiSchema);
         }
         node.name = item.schemaName;
         item.node = node;
