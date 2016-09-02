@@ -9,8 +9,6 @@ function eval_fun(str_fun){
   return function(a){return a;};
 }
 
-
-
 class FullControlConditional extends React.Component{
   constructor(props){
     super(props);
@@ -35,10 +33,12 @@ class FullControlConditional extends React.Component{
       schema,
       uiSchema,
       formData,
-      condition_fun
+      condition_fun,
+      needUpdate:false
     };
   }
   componentWillReceiveProps(nextProps){
+    console.log(['nextprops',nextProps]);
     let condition_fun = this.state.condition_fun;
     if(nextProps.uiSchema != this.props.uiSchema){
       condition_fun = eval_fun(
@@ -58,9 +58,11 @@ class FullControlConditional extends React.Component{
         (p)=>p in schema.properties
       )});
     }
+    //this.state.needUpdate = true;
     this.setState({schema,uiSchema,formData});
   }
   onChange(_formData, options){
+    console.log('change');
     if(this.state.condition_fun){
       let new_props=deepcopy({
         schema:this.props.schema,
@@ -81,9 +83,16 @@ class FullControlConditional extends React.Component{
         uiSchema,
         formData:formData
       });
-      this.props.onChange(formData);
+      this.state.needUpdate = true;
     }
     this.props.onChange(_formData);
+  }
+  componentDidUpdate(){
+    console.log(this.state.needUpdate);
+    if(this.state.needUpdate){
+      this.state.needUpdate = false;
+      this.props.onChange(this.state.formData);
+    }
   }
   render (){
     const props = {
@@ -93,6 +102,7 @@ class FullControlConditional extends React.Component{
       uiSchema:this.state.uiSchema,
       formData:this.state.formData
     };
+    console.log('render');
     return (<ObjectField {...props} />);
   }
 }
