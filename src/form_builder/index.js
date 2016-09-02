@@ -126,12 +126,12 @@ const App = React.createClass({
       });
     }
   },
-  onNewItem(e, item_type) {
+  onNewItem(e, item) {
     let active = this.state['active'];
     const preset = this.state.preset;
-    function addChildren(parent, item_type, after_child) {
-      function genNewName(parent, item_type) {
-        let new_name = item_type;
+    function addChildren(parent, item, after_child) {
+      function genNewName(parent, item_name) {
+        let new_name = item_name;
         function isNameExist(name) { return !!parent.children && parent.children.find(function (chr) { return chr.name == name; }); }
         if (isNameExist(new_name)) {
           let counter = 1;
@@ -142,8 +142,8 @@ const App = React.createClass({
         }
         return new_name;
       }
-      let new_item = preset[item_type];
-      new_item.name = genNewName(parent, item_type);
+      let new_item = item;//preset[item_type];
+      new_item.name = genNewName(parent, item.name || "item");
       if (after_child) {
         parent.children.splice(
           parent.children.indexOf(after_child) + 1,
@@ -158,13 +158,13 @@ const App = React.createClass({
     if (active.configs.type == 'object') {
       if (active.children) {
         this.setState({
-          active: addChildren(active, item_type)
+          active: addChildren(active, item)
         });
       }
     } else {
       let parent = getParent(this.state.tree, active);
       this.setState({
-        active: addChildren(parent, item_type, active)
+        active: addChildren(parent, item, active)
       });
     }
     //this.setState({active});
@@ -273,7 +273,7 @@ const App = React.createClass({
               <RightClickMenu
                   onDeleteItem={this.onDeleteItem}
                   onNewItem={this.onNewItem}
-                  presetItems={Object.keys(this.props.preset) }
+                  menu={ this.props.menu }
               />
             </div>
 

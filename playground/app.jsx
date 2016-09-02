@@ -3,12 +3,13 @@ import { render } from 'react-dom';
 
 import FormBuilder from '../src/form_builder/index';
 import FormFactory from 'form-components/dist-component/client';
-import preset from './preset';
 import fullConditional from '../src/fullConditional.js';
+
+import Menu from "./CustomMenu.js";
 
 let custom = {
   fields: {
-   fullConditional,
+    fullConditional,
     paymentStatus: FormFactory.createBuilder('cb-payment-status')
   },
   widgets: {
@@ -19,6 +20,7 @@ let custom = {
    })
   }
 }
+
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-ui-tree/dist/react-ui-tree.css';
@@ -83,12 +85,12 @@ function myCondition({schema, uiSchema, formData}) {
     });
     if (formData.switch != 'case1') {
       uiSchema.case1['ui:widget']='hidden';
-      delete formData.case1;
+      formData.case1=undefined;
     }
     if (formData.switch != 'case2') {
       uiSchema.case1['ui:disabled']=true;
       uiSchema.case2['ui:widget']='hidden';
-      delete formData.case2;
+      formData.case2=undefined;
     }
     formData.sum = formData.a+formData.b;
   }
@@ -172,7 +174,7 @@ class App extends Component {
     console.log(custom);
     console.log('end of custoemr');
     return (<FormBuilder
-                preset={preset}
+                menu={Menu}
                 widgets={custom.widgets}
                 fields={custom.fields}
                 onSubmit={this.onSubmit}
@@ -182,6 +184,4 @@ class App extends Component {
   }
 }
 
-console.log('asdf');
 render(<App />, document.getElementById('app'));
-console.log('asdf==');
