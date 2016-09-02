@@ -4,14 +4,14 @@ import deepcopy from 'deepcopy';
 let preset = {};
 
 preset.object = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "object",
         "title": "Object Name"
     }
 };
 
 preset.array = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "array",
         "title": "List",
         "items": {
@@ -23,31 +23,31 @@ preset.array = {
 };
 
 preset.label = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "Label"
     },
-    "UISchema":{
-        "ui:field":"label"
+    "UISchema": {
+        "ui:field": "label"
     }
 };
 
 preset.input = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "Input"
     }
 };
 
 preset.string = {
-  "JSONSchema":{
-    "type": "string",
-    "title": "Input"
-  }
+    "JSONSchema": {
+        "type": "string",
+        "title": "Input"
+    }
 };
 
 preset.selectbox = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "Options",
         "enum": [
@@ -55,7 +55,7 @@ preset.selectbox = {
             "1",
             "2"
         ],
-        "enumNames":[
+        "enumNames": [
             "Option 1",
             "Option 2",
             "Option 3"
@@ -64,7 +64,7 @@ preset.selectbox = {
 }
 
 preset.email = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "Email",
         "format": "email"
@@ -74,7 +74,7 @@ preset.email = {
 
 
 preset.checkbox = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "array",
         "title": "A multiple choices list",
         "items": {
@@ -92,35 +92,35 @@ preset.checkbox = {
         },
         "uniqueItems": true
     },
-    "UISchema":{
+    "UISchema": {
         "ui:widget": "checkboxes"
     }
 };
 
 preset.radio = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "radio buttons",
-      "enum":["r1","r2","r3"],
-      "enumNames":["radio 1","radio 2","radio 3"]
+        "enum": ["r1", "r2", "r3"],
+        "enumNames": ["radio 1", "radio 2", "radio 3"]
     },
-    "UISchema":{
+    "UISchema": {
         "ui:widget": "radio"
     }
 };
 
 preset.textarea = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "Textarea"
     },
-    "UISchema":{
+    "UISchema": {
         "ui:widget": "textarea"
     }
 };
 
 preset.date = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "Date",
         "format": "date"
@@ -128,31 +128,31 @@ preset.date = {
 };
 
 preset.datetime = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string",
         "title": "Datetime",
         "format": "datetime"
     },
-    "UISchema":{
-        "ui:field":"dateTime"
+    "UISchema": {
+        "ui:field": "dateTime"
     }
 };
 
 preset.wysiwyg = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "string"
     },
-    "UISchema":{
-        "ui:field":"wysiwyg"
+    "UISchema": {
+        "ui:field": "wysiwyg"
     }
 };
 
 preset.paymentStatus = {
-    "JSONSchema":{
+    "JSONSchema": {
         "type": "object"
     },
-    "UISchema":{
-        "ui:field":"paymentStatus"
+    "UISchema": {
+        "ui:field": "paymentStatus"
     }
 };
 

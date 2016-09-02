@@ -4,7 +4,7 @@ import deepmerge from 'deepmerge';
 import deepcopy from 'deepcopy';
 import common from './_common.js';
 
-import JavascriptEditor from 'form-custom-components/lib/widgets/codemirror.js';
+import JavascriptEditor from '../codemirror.js';
 
 
 const schema = deepmerge(deepcopy(common),{

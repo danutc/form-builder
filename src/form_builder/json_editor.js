@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import Codemirror from 'react-codemirror';
 import "codemirror/mode/javascript/javascript";
 import "codemirror/lib/codemirror.css";
