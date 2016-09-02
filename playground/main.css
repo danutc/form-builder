@@ -2,11 +2,11 @@
   top: 0;
   left: 0;
   bottom: 0;
-  height: 1000px;
-  width: 300px;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #21252B;
+  position: fixed;
 }
 
 .tree h3 {
@@ -29,3 +29,13 @@
 .m-node .node.is-active {
   background-color: #31363F;
 }
+
+.editor {
+  top: 0;
+  bottom: 0;
+  position:fixed;
+  overflow-y:scroll;
+  background-color: #F6F6F6;
+}
+
+    

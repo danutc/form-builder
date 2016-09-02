@@ -207,7 +207,8 @@ const App = React.createClass({
 
     return (
       <div className="app">
-        <div className="tree col-md-3" onContextMenu={this.onContextMenu}>
+        <div className="col-xs-2" onContextMenu={this.onContextMenu}>
+        <div className="tree col-xs-2">
           <h3>Form Fields</h3>
           <TreeWithRightClick
               paddingLeft={20}
@@ -217,7 +218,8 @@ const App = React.createClass({
               renderNode={this.renderNode}
           />
           <br/>
-          <button className="btn btn-danger clear-form" onClick={this._clearForm}>Clear Form </button>
+        <button className="btn btn-danger clear-form" onClick={this._clearForm}>Clear Form </button>
+        </div>
         </div>
         {
           (this.state.editing && false) ?
@@ -229,7 +231,7 @@ const App = React.createClass({
           :
           (null)
         }
-            <div className="inspector col-md-6">
+            <div className="inspector col-xs-7">
               <h3>Form Preview</h3>
 
               <Form
@@ -279,10 +281,12 @@ const App = React.createClass({
 
             {
               this.state.active ? (
-                <div className="form-editor col-md-3">
+                  <div className="form-editor col-xs-3">
+                  <div className="editor col-xs-3">
                   <h3>Widget & Field Configuration</h3>
                   <Editor getActiveNode={this.getActiveNode} onChange={this.onNodeUpdate} getActiveNode={() => this.state.active}/>
                   <hr />
+                  </div>
                 </div>
               ) : (null)
             }
