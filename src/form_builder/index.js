@@ -209,7 +209,7 @@ const App = React.createClass({
       <div className="app">
         <div className="col-xs-2" onContextMenu={this.onContextMenu}>
         <div className="tree col-xs-2">
-          <h3>Form Fields</h3>
+        <h3>Form Fields</h3>
           <TreeWithRightClick
               paddingLeft={20}
               tree={this.state.tree}
@@ -217,7 +217,9 @@ const App = React.createClass({
               isNodeCollapsed={this.isNodeCollapsed}
               renderNode={this.renderNode}
           />
-          <br/>
+        <br/>
+        <button className="btn btn-success" onSubmit = { (e)=>(this.props.onSubmit({name:this.state.tree.name,schema,uiSchema})) }
+        >Save</button>
         <button className="btn btn-danger clear-form" onClick={this._clearForm}>Clear Form </button>
         </div>
         </div>
@@ -242,7 +244,6 @@ const App = React.createClass({
                   onChange={ this.onDataChange }
                   formData={ this.state.tree == this.state.active || !this.state.active ? this.state.formData : undefined}
                   liveValidate={true}
-                  onSubmit = { (e)=>(this.props.onSubmit({name:this.state.tree.name,schema,uiSchema})) }
               >
                 {(this.state.active?<button hidden></button>:null)}
               </Form>

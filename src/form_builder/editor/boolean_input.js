@@ -4,6 +4,14 @@ import deepmerge from 'deepmerge';
 import common from './_common.js';
 const schema = deepmerge(common,{
   'properties': {
+    'configs':{
+      'properties':{
+        'type':{
+          'type':'string',
+          'enum':['string','integer','number','boolean']
+        }
+      }
+    },
     'ui':{
       'properties':{
         'ui:widget':{
