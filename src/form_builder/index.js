@@ -21,8 +21,8 @@ import {decompile, compile, injectUiSchema, extractUiSchema, getUiOrder, deleteN
 
 import extensions from '../form_engine_extensions';
 // Add support for inline validation
-//const Form = extensions.conditional_logic(extensions.inline_validation(_Form));
-const Form = _Form;
+const Form = extensions.conditional_logic(extensions.inline_validation(_Form));
+//const Form = _Form;
 
 const TreeWithRightClick = ContextMenuLayer(
   'tree',
@@ -251,6 +251,7 @@ const App = React.createClass({
               >
                 {(this.state.active||true?<button hidden></button>:null)}
               </Form>
+              <div className="col-md-12">
               <hr />
               <div className="col-md-6">
                 <JsonEditor
@@ -275,7 +276,7 @@ const App = React.createClass({
                    title={"tree"}
                    code={JSON.stringify(this.state.tree, null, '  ') }
                    onChange={this.updateTree} />
-             </div>
+             </div></div>
 
               <RightClickMenu
                   onDeleteItem={this.onDeleteItem}
