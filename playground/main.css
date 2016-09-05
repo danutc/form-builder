@@ -1,3 +1,9 @@
+
+
+.collapse {
+  display: block;/* required by react-ui-tree but boostrap will hide it by default */
+}
+
 .tree {
   top: 0;
   left: 0;
@@ -39,3 +45,10 @@
 }
 
     
+.m-node .caret-right:before {
+  content: '\25B8';
+}
+.m-node .caret-down:before {
+  content: '\25BE';
+}
+
