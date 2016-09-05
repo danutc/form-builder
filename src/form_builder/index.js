@@ -194,7 +194,7 @@ const App = React.createClass({
   _clearForm() {
     this.setState({
       active: undefined,
-      tree: {configs: {}},
+      tree: {name:'new_form',configs: {'type':'object'},children:[]},
       formData: {}
     });
   },
@@ -218,9 +218,13 @@ const App = React.createClass({
               renderNode={this.renderNode}
           />
         <br/>
-        <button className="btn btn-success" onSubmit = { (e)=>(this.props.onSubmit({name:this.state.tree.name,schema,uiSchema})) }
+        <button className="btn btn-success col-md-6" onClick = { (e)=>(this.props.onSubmit({
+          name:this.state.tree.name,
+          schema:this.state.schema,
+          uiSchema:this.state.uiSchema
+        })) }
         >Save</button>
-        <button className="btn btn-danger clear-form" onClick={this._clearForm}>Clear Form </button>
+        <button className="btn btn-danger clear-form col-md-6" onClick={this._clearForm}>Clear Form </button>
         </div>
         </div>
         {
@@ -245,7 +249,7 @@ const App = React.createClass({
                   formData={ this.state.tree == this.state.active || !this.state.active ? this.state.formData : undefined}
                   liveValidate={true}
               >
-                {(this.state.active?<button hidden></button>:null)}
+                {(this.state.active||true?<button hidden></button>:null)}
               </Form>
               <hr />
               <div className="col-md-6">

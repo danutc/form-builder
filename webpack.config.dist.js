@@ -33,6 +33,10 @@ module.exports = {
         exclude: /node_modules/,
         test: /(\.jsx?)$/,
         loaders: ["babel"]
+      },
+      {
+        test: /\.css$/,
+        loader: "style!css"
       }
     ]
   }
