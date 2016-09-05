@@ -129,7 +129,7 @@ function conditional_logic_extension(FormComponent){
       const new_uiSchema = deepmerge(deepcopy(this.props.uiSchema), this.state.condition_fun(e.formData));
       const newFormData = this.state.datafilter_fun(e.formData);
       this.setState({uiSchema:new_uiSchema,formData:e.formData});
-      this.props.onChange(Object.assign({},e, {formData:newFormData}));
+      this.props.onChange && this.props.onChange(Object.assign({},e, {formData:newFormData}));
     }
     componentWillReceiveProps(props){
       const condition_fun = compile_contition(props.schema);
